@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import uimlbuddy.view.EditorOverviewController;
 import uimlbuddy.view.RootLayoutController;
 
 /**
@@ -73,8 +74,12 @@ public class UimlBuddy extends Application {
             loader.setLocation(UimlBuddy.class.getResource("view/EditorOverview.fxml"));
             AnchorPane editorOverview = (AnchorPane) loader.load();
 
-            // Set person overview into the center of root layout.
+            // Set editor overview into the center of root layout.
             rootLayout.setCenter(editorOverview);
+
+            EditorOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

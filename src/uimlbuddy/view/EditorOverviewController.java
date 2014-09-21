@@ -8,6 +8,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
+import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.UimlBuddy;
 
 /**
@@ -16,6 +17,7 @@ import uimlbuddy.UimlBuddy;
  * @author Lyuben
  */
 public class EditorOverviewController implements Initializable {
+
     @FXML
     private Accordion accordion;
     @FXML
@@ -29,19 +31,26 @@ public class EditorOverviewController implements Initializable {
 
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
-    
+
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+        uimlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                + "\n<uiml>\n<interface>"
+                + "\n\t<structure>\n\n\t</structure>"
+                + "\n\n\t<style>\n\n\t</style>"
+                + "\n\n\t<content>\n\n\t</content>"
+                + "\n\n\t<behavior>\n\n\t</behavior>"
+                + "\n</interface>"
+                + "\n</uiml>");
+    }
+
     /**
      * Is called by the main application to give a reference back to itself.
-     * 
+     *
      * @param uimlBuddy
      */
     public void setMainApp(UimlBuddy uimlBuddy) {
@@ -50,6 +59,11 @@ public class EditorOverviewController implements Initializable {
 
     @FXML
     private void handleVerticalLayout(MouseEvent event) {
+        Dialogs.create()
+                .title("Test")
+                .masthead("OMG OMG OMG")
+                .message("So insert a layout a?")
+                .showWarning();
     }
-    
+
 }
