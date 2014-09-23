@@ -39,6 +39,12 @@
                     <MenuItem mnemonicParsing="false" text="Delete" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="Windows">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="XSLT Source" />
+                        <MenuItem mnemonicParsing="false" text="CSS Source" />
+                     </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#handleAbout" text="About" />
