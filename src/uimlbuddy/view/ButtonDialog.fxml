@@ -7,8 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="200.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="uimlbuddy.view.ButtonDialogController">
+<AnchorPane id="AnchorPane" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uimlbuddy.view.ButtonDialogController">
    <children>
       <GridPane layoutX="45.0" layoutY="39.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <columnConstraints>
@@ -34,12 +33,12 @@
       </GridPane>
       <HBox layoutX="173.0" layoutY="147.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>
-            <Button layoutX="173.0" layoutY="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="OK">
+            <Button layoutX="173.0" layoutY="147.0" mnemonicParsing="false" onAction="#handleOk" prefHeight="25.0" prefWidth="80.0" text="OK">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button layoutX="247.0" layoutY="147.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" text="Cancel" />
+            <Button layoutX="247.0" layoutY="147.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="25.0" prefWidth="80.0" text="Cancel" />
          </children>
       </HBox>
    </children>
