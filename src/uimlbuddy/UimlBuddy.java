@@ -2,12 +2,17 @@ package uimlbuddy;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.view.ButtonDialogController;
 import uimlbuddy.view.EditorOverviewController;
 import uimlbuddy.view.RootLayoutController;
 
@@ -19,7 +24,9 @@ public class UimlBuddy extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-
+    // Buttons as an observable list collection - needed to sync the view with the data.
+    private ObservableList<UimlButton> uimlButtons = FXCollections.observableArrayList();
+    
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -82,6 +89,54 @@ public class UimlBuddy extends Application {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Returns the Buttons as an observable.
+     * 
+     * @return
+     */
+    public ObservableList<UimlButton> getUimlButtons() {
+        return uimlButtons;
+    }
+    
+    /**
+     * Opens a dialog to add/edit uiml button details. If the user clicks ok,
+     * the changes are saved into the provided uimlButton object and true is 
+     * returned.
+     * 
+     * @param uimlButton the uiml button object to be added/edited
+     * @return true if the use clicked ok, false otherwise.
+     */
+    public boolean showUimlButtonDialog(UimlButton uimlButton) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/ButtonDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+            
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("UIML Button");
+            dialogStage.getIcons().add(new Image("/assets/Button@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            
+            // Set the uiml button into the controller
+            ButtonDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setButton(uimlButton);
+            
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+            
+            return controller.isOkClicked();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
