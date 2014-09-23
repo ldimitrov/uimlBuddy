@@ -39,7 +39,7 @@
                                           <Label text="Horizontal Layout" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="&lt;div/&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="&lt;span/&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <ImageView GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                          <ImageView onMouseClicked="#handleVerticalLayout" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/VBox@2x.png" />
                                              </image>
@@ -71,7 +71,7 @@
                                  <children>
                                     <GridPane prefHeight="422.0" prefWidth="248.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label text="Button" GridPane.columnIndex="1" />
+                                          <Label onMouseClicked="#handleButtonNew" text="Button" GridPane.columnIndex="1" />
                                           <Label text="Image Button" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <Label text="Checkbox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                           <Label text="Radio Button" GridPane.columnIndex="1" GridPane.rowIndex="6" />
@@ -80,7 +80,7 @@
                                           <Label text="Text Input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="Text Output" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                           <Label text="Drop Down" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                          <ImageView GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                          <ImageView onMouseClicked="#handleButtonNew" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/Button@2x.png" />
                                              </image>

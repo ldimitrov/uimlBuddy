@@ -10,6 +10,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.UimlBuddy;
+import uimlbuddy.model.controlls.UimlButton;
 
 /**
  * FXML Controller class
@@ -57,6 +58,14 @@ public class EditorOverviewController implements Initializable {
         this.uimlBuddy = uimlBuddy;
     }
 
+    @FXML
+    private void handleButtonNew(MouseEvent event) {
+        UimlButton uimlButton = new UimlButton();
+        boolean okClicked = uimlBuddy.showUimlButtonDialog(uimlButton);
+        if(okClicked) {
+            uimlBuddy.getUimlButtons().add(uimlButton);
+        }
+    }
     @FXML
     private void handleVerticalLayout(MouseEvent event) {
         Dialogs.create()

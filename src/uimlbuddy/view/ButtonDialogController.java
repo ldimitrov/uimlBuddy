@@ -50,7 +50,7 @@ public class ButtonDialogController implements Initializable {
      * 
      * @param uimlButton
      */
-    public void setPerson(UimlButton uimlButton) {
+    public void setButton(UimlButton uimlButton) {
         this.uimlButton = uimlButton;
 
         idField.setText(uimlButton.getId());
