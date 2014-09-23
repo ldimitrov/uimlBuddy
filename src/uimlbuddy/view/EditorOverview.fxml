@@ -39,22 +39,22 @@
                                           <Label text="Horizontal Layout" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="&lt;div/&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="&lt;span/&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <ImageView onMouseClicked="#handleVerticalLayout" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleVerticalLayout" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/VBox@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/HBox@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/HTMLTag@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/HTMLTag@2x.png" />
                                              </image>
@@ -80,47 +80,47 @@
                                           <Label text="Text Input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="Text Output" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                           <Label text="Drop Down" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                                          <ImageView onMouseClicked="#handleButtonNew" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleButtonNew" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/Button@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/Label@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/TextField@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/TextOutput@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/ImageView@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/CheckBox@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/RadioButton@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/ChoiceBox@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/DatePicker@2x.png" />
                                              </image>
@@ -155,17 +155,17 @@
                                           <Label text="Anchor" GridPane.columnIndex="1" />
                                           <Label text="Table" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Image" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <ImageView GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/Hyperlink@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/TableView@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/ImageView@2x.png" />
                                              </image>
