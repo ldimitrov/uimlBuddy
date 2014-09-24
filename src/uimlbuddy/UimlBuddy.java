@@ -1,6 +1,8 @@
 package uimlbuddy;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,7 +28,8 @@ public class UimlBuddy extends Application {
     private BorderPane rootLayout;
     // Buttons as an observable list collection - needed to sync the view with the data.
     private ObservableList<UimlButton> uimlButtons = FXCollections.observableArrayList();
-    
+    private EditorOverviewController editorOverviewController;
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -63,8 +66,15 @@ public class UimlBuddy extends Application {
 
             // Give the controller access to the main app.
             RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
-
+//            controller.setMainApp(this);            
+            controller.selectedFileProperty().addListener((obs, oldFile, newFile) -> {
+                if(newFile != null)
+                    try {
+                        editorOverviewController.loadUimlFile(newFile);
+                } catch (IOException ex) {
+                    Logger.getLogger(UimlBuddy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,28 +94,29 @@ public class UimlBuddy extends Application {
             // Set editor overview into the center of root layout.
             rootLayout.setCenter(editorOverview);
 
-            EditorOverviewController controller = loader.getController();
-            controller.setMainApp(this);
+            this.editorOverviewController = loader.getController();
+//            EditorOverviewController controller = loader.getController();
+//            controller.setMainApp(this);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Returns the Buttons as an observable.
-     * 
+     *
      * @return
      */
     public ObservableList<UimlButton> getUimlButtons() {
         return uimlButtons;
     }
-    
+
     /**
      * Opens a dialog to add/edit uiml button details. If the user clicks ok,
-     * the changes are saved into the provided uimlButton object and true is 
+     * the changes are saved into the provided uimlButton object and true is
      * returned.
-     * 
+     *
      * @param uimlButton the uiml button object to be added/edited
      * @return true if the use clicked ok, false otherwise.
      */
@@ -115,7 +126,7 @@ public class UimlBuddy extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(UimlBuddy.class.getResource("view/ButtonDialog.fxml"));
             AnchorPane page = (AnchorPane) loader.load();
-            
+
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
             dialogStage.setTitle("UIML Button");
@@ -124,17 +135,17 @@ public class UimlBuddy extends Application {
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
-            
+
             // Set the uiml button into the controller
             ButtonDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setButton(uimlButton);
-            
+
             // Show the dialog and wait until user closes it.
             dialogStage.showAndWait();
-            
+
             return controller.isOkClicked();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
