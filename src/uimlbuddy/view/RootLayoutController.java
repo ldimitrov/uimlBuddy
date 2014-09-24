@@ -1,14 +1,18 @@
 package uimlbuddy.view;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
@@ -23,10 +27,26 @@ import uimlbuddy.UimlBuddy;
 public class RootLayoutController implements Initializable, Observer {
 
     @FXML
-    Parent root;
+    private BorderPane root;
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
-    private Stage stage;
+    private FileChooser fileChooser;
+    private File uimlFile;
+    private FileChooser.ExtensionFilter extFilter1;
+    private FileChooser.ExtensionFilter extFilter2;
+    private final ObjectProperty<File> selectedFile = new SimpleObjectProperty<>(this, "selectedFile");
+
+    public final ObjectProperty<File> selectedFileProperty() {
+        return selectedFile;
+    }
+
+    public final File getSelectedFile() {
+        return selectedFile.get();
+    }
+
+    public final void setSelectedFile(File file) {
+        this.selectedFile.set(file);
+    }
 
     /**
      * Initializes the controller class.
@@ -40,17 +60,32 @@ public class RootLayoutController implements Initializable, Observer {
      *
      * @param uimlBuddy
      */
-    public void setMainApp(UimlBuddy uimlBuddy) {
-        this.uimlBuddy = uimlBuddy;
-    }
+//    public void setMainApp(UimlBuddy uimlBuddy) {
+//        this.uimlBuddy = uimlBuddy;
+//    }
 
     @FXML
     private void handleNew() {
         update(null, uimlBuddy);
     }
 
+    /**
+     * Opens a FileChooser to let the user select a UIML file to be loaded.
+     */
     @FXML
-    private void handleOpen(ActionEvent event) {
+    private void handleOpen() {
+        fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        extFilter1 = new FileChooser.ExtensionFilter("UIML Documents (*.uiml)", "*.uiml");
+        extFilter2 = new FileChooser.ExtensionFilter("All Files", "*.*");
+
+        fileChooser.getExtensionFilters().addAll(extFilter1, extFilter2);
+
+        uimlFile = fileChooser.showOpenDialog(root.getScene().getWindow());
+
+        if (uimlFile != null) {
+            setSelectedFile(uimlFile);
+        }
     }
 
     @FXML
@@ -85,7 +120,7 @@ public class RootLayoutController implements Initializable, Observer {
         Dialogs.create()
                 .title("uimlBuddy")
                 .masthead("About")
-                .message("A grapgical editor for UIML\n\nAuthor: Lyuben Dimitrov")
+                .message("A grapgical editor for UIML\n\nAuthor: Lyuben Dimitrov\nVersion: 1.0v")
                 .showInformation();
     }
 

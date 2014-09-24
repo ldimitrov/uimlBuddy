@@ -1,7 +1,13 @@
 package uimlbuddy.view;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
@@ -28,7 +34,7 @@ public class EditorOverviewController implements Initializable {
     @FXML
     private TitledPane accMiscellaneous;
     @FXML
-    private TextArea uimlEditor;
+    private TextArea sourceEditor;
 
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
@@ -39,14 +45,14 @@ public class EditorOverviewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        uimlEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                + "\n<uiml>\n<interface>"
-                + "\n\t<structure>\n\n\t</structure>"
-                + "\n\n\t<style>\n\n\t</style>"
-                + "\n\n\t<content>\n\n\t</content>"
-                + "\n\n\t<behavior>\n\n\t</behavior>"
-                + "\n</interface>"
-                + "\n</uiml>");
+//        sourceEditor.setText("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+//                + "\n<uiml>\n<interface>"
+//                + "\n\t<structure>\n\n\t</structure>"
+//                + "\n\n\t<style>\n\n\t</style>"
+//                + "\n\n\t<content>\n\n\t</content>"
+//                + "\n\n\t<behavior>\n\n\t</behavior>"
+//                + "\n</interface>"
+//                + "\n</uiml>");
     }
 
     /**
@@ -54,18 +60,43 @@ public class EditorOverviewController implements Initializable {
      *
      * @param uimlBuddy
      */
-    public void setMainApp(UimlBuddy uimlBuddy) {
-        this.uimlBuddy = uimlBuddy;
+//    public void setMainApp(UimlBuddy uimlBuddy) {
+//        this.uimlBuddy = uimlBuddy;
+//    }
+    
+    /**
+     * Loads a UIML document from a specified file.
+     *
+     * @param file
+     * @throws java.io.IOException
+     */
+    public void loadUimlFile(File file) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try (FileInputStream fis = new FileInputStream(file);
+                BufferedInputStream bis = new BufferedInputStream(fis)) {
+            while (bis.available() > 0) {
+                sb.append((char) bis.read());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sourceEditor.setText(sb.toString());
+        } catch (Exception ex) {
+            Logger.getLogger(RootLayoutController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
 
     @FXML
     private void handleButtonNew(MouseEvent event) {
         UimlButton uimlButton = new UimlButton();
         boolean okClicked = uimlBuddy.showUimlButtonDialog(uimlButton);
-        if(okClicked) {
+        if (okClicked) {
             uimlBuddy.getUimlButtons().add(uimlButton);
         }
     }
+
     @FXML
     private void handleVerticalLayout(MouseEvent event) {
         Dialogs.create()
