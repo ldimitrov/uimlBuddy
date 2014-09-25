@@ -29,7 +29,8 @@ public class UimlBuddy extends Application {
     // Buttons as an observable list collection - needed to sync the view with the data.
     private ObservableList<UimlButton> uimlButtons = FXCollections.observableArrayList();
     private EditorOverviewController editorOverviewController;
-
+    private ButtonDialogController buttonDialogController;
+    
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -95,8 +96,7 @@ public class UimlBuddy extends Application {
             rootLayout.setCenter(editorOverview);
 
             this.editorOverviewController = loader.getController();
-//            EditorOverviewController controller = loader.getController();
-//            controller.setMainApp(this);
+            editorOverviewController.setMainApp(this);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,14 +137,15 @@ public class UimlBuddy extends Application {
             dialogStage.setScene(scene);
 
             // Set the uiml button into the controller
-            ButtonDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setButton(uimlButton);
+            //ButtonDialogController controller = loader.getController();
+            this.buttonDialogController = loader.getController();
+            buttonDialogController.setDialogStage(dialogStage);
+            buttonDialogController.setButton(uimlButton);
 
             // Show the dialog and wait until user closes it.
             dialogStage.showAndWait();
 
-            return controller.isOkClicked();
+            return buttonDialogController.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

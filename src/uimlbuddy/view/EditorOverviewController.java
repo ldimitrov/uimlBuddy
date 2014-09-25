@@ -14,6 +14,8 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.UimlBuddy;
 import uimlbuddy.model.controlls.UimlButton;
@@ -35,10 +37,12 @@ public class EditorOverviewController implements Initializable {
     private TitledPane accMiscellaneous;
     @FXML
     private TextArea sourceEditor;
+    @FXML 
+    private WebView webBrowser;
 
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
-
+    
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
@@ -60,9 +64,9 @@ public class EditorOverviewController implements Initializable {
      *
      * @param uimlBuddy
      */
-//    public void setMainApp(UimlBuddy uimlBuddy) {
-//        this.uimlBuddy = uimlBuddy;
-//    }
+    public void setMainApp(UimlBuddy uimlBuddy) {
+        this.uimlBuddy = uimlBuddy;
+    }
     
     /**
      * Loads a UIML document from a specified file.
@@ -82,21 +86,18 @@ public class EditorOverviewController implements Initializable {
         }
         try {
             sourceEditor.setText(sb.toString());
+            final WebEngine webEngine = webBrowser.getEngine();
+            webEngine.load(sb.toString());
+            
         } catch (Exception ex) {
             Logger.getLogger(RootLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-
-    @FXML
-    private void handleButtonNew(MouseEvent event) {
-        UimlButton uimlButton = new UimlButton();
-        boolean okClicked = uimlBuddy.showUimlButtonDialog(uimlButton);
-        if (okClicked) {
-            uimlBuddy.getUimlButtons().add(uimlButton);
-        }
-    }
-
+    /**
+     * Handles mouse click event for inserting a Vertical Layout
+     * @param event 
+     */
     @FXML
     private void handleVerticalLayout(MouseEvent event) {
         Dialogs.create()
@@ -105,5 +106,31 @@ public class EditorOverviewController implements Initializable {
                 .message("So insert a layout a?")
                 .showWarning();
     }
+    
+    /**
+     * Handles mouse click event for inserting a Button
+     * @param event 
+     */
+    @FXML
+    private void handleButtonNew(MouseEvent event) {
+        UimlButton uimlButton = new UimlButton();
+        boolean okClicked = uimlBuddy.showUimlButtonDialog(uimlButton);
+        if (okClicked) {
+            uimlBuddy.getUimlButtons().add(uimlButton);
+        }
+    }
+    
+    /**
+     * Handles a mause click event for inserting a Label
+     * @param event 
+     */
+    @FXML
+    private void handleLabelNew(MouseEvent event) {
+        Dialogs.create()
+                .title("Insert Label")
+                .masthead("NOT YET DONE")
+                .message("Write the code, bitch!")
+                .showWarning();
+    }   
 
 }
