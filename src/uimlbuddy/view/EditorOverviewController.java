@@ -1,5 +1,6 @@
 package uimlbuddy.view;
 
+import java.awt.Canvas;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,7 +39,7 @@ public class EditorOverviewController implements Initializable {
     @FXML
     private TextArea sourceEditor;
     @FXML 
-    private WebView webBrowser;
+    private Canvas canvasEditor;
 
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
@@ -85,10 +86,7 @@ public class EditorOverviewController implements Initializable {
             e.printStackTrace();
         }
         try {
-            sourceEditor.setText(sb.toString());
-            final WebEngine webEngine = webBrowser.getEngine();
-            webEngine.load(sb.toString());
-            
+            sourceEditor.setText(sb.toString());        
         } catch (Exception ex) {
             Logger.getLogger(RootLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }

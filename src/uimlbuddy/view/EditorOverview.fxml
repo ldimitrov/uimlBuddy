@@ -199,7 +199,7 @@
                            <children>
                               <HBox prefHeight="555.0" prefWidth="1020.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Canvas height="555.0" width="1020.0" />
+                                    <Canvas fx:id="canvasEditor" height="555.0" width="1020.0" />
                                  </children>
                               </HBox>
                            </children>
