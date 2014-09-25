@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.web.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.canvas.*?>
@@ -75,7 +76,7 @@
                                           <Label text="Image Button" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <Label text="Checkbox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                           <Label text="Radio Button" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                          <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label onMouseClicked="#handleLabelNew" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Date Picker" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                                           <Label text="Text Input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="Text Output" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -85,7 +86,7 @@
                                                 <Image url="@../../assets/Button@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleLabelNew" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/Label@2x.png" />
                                              </image>
@@ -196,9 +197,9 @@
                     <items>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                            <children>
-                              <HBox layoutX="376.0" layoutY="115.0" prefHeight="555.0" prefWidth="1020.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <HBox prefHeight="555.0" prefWidth="1020.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Canvas height="556.0" layoutX="376.0" layoutY="115.0" width="1024.0" />
+                                    <Canvas height="555.0" width="1020.0" />
                                  </children>
                               </HBox>
                            </children>
