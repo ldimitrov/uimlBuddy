@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
@@ -19,7 +18,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.controlsfx.dialog.Dialogs;
-import org.fxmisc.richtext.CodeArea;
 import uimlbuddy.UimlBuddy;
 import uimlbuddy.model.controlls.UimlButton;
 
@@ -44,11 +42,7 @@ public class EditorOverviewController implements Initializable {
     private Canvas canvasEditor;
 
     // Reference to the main application.
-    private UimlBuddy uimlBuddy;
-
-    private CodeArea codeArea;
-    private ExecutorService executor;
-    
+    private UimlBuddy uimlBuddy;    
         
     /** 
      * Initializes the controller class. This method is automatically called
