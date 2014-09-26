@@ -1,5 +1,6 @@
 package uimlbuddy.model;
 
+import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -9,6 +10,8 @@ import javafx.beans.property.StringProperty;
  */
 public class Part {
 
+    private Part parentPart;
+    private ArrayList childParts = new ArrayList();
     private final StringProperty id;
     private final StringProperty classType;
 
@@ -44,5 +47,17 @@ public class Part {
     
     public void setClassType(String label) {
         this.classType.set(label);
+    }
+    
+    public ArrayList getChildParts() {
+        return childParts;
+    }
+    
+    /**
+     * Add child parts
+     * @param part
+     */
+    public void addChildPart(Part part) {
+        childParts.add(part);
     }
 }
