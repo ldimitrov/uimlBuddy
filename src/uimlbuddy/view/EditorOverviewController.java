@@ -1,23 +1,25 @@
 package uimlbuddy.view;
 
-import java.awt.Canvas;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+import javafx.scene.paint.Color;
 import org.controlsfx.dialog.Dialogs;
+import org.fxmisc.richtext.CodeArea;
 import uimlbuddy.UimlBuddy;
 import uimlbuddy.model.controlls.UimlButton;
 
@@ -43,8 +45,12 @@ public class EditorOverviewController implements Initializable {
 
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
+
+    private CodeArea codeArea;
+    private ExecutorService executor;
     
-    /**
+        
+    /** 
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
@@ -58,6 +64,8 @@ public class EditorOverviewController implements Initializable {
 //                + "\n\n\t<behavior>\n\n\t</behavior>"
 //                + "\n</interface>"
 //                + "\n</uiml>");
+        GraphicsContext gc = this.canvasEditor.getGraphicsContext2D();
+        drawShapes(gc);
     }
 
     /**
@@ -86,7 +94,8 @@ public class EditorOverviewController implements Initializable {
             e.printStackTrace();
         }
         try {
-            sourceEditor.setText(sb.toString());        
+            sourceEditor.setText(sb.toString());    
+            sourceEditor.setWrapText(true);            
         } catch (Exception ex) {
             Logger.getLogger(RootLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,4 +140,10 @@ public class EditorOverviewController implements Initializable {
                 .showWarning();
     }   
 
+    private void drawShapes(GraphicsContext gc) {
+        gc.setFill(Color.GREEN);
+        gc.setStroke(Color.BLUE);
+        gc.strokeRoundRect(140, 60, 100, 30, 10, 10);
+        gc.fillText("Button", 170, 80);
+    }
 }
