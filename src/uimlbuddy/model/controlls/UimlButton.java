@@ -2,18 +2,20 @@ package uimlbuddy.model.controlls;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import uimlbuddy.model.Part;
 
 /**
  * Model class for a UIML Button
  * 
  * @author Lyuben
  */
-public class UimlButton {
+public class UimlButton extends Part {
     
     private final StringProperty id;    
     private final StringProperty label;
     private final StringProperty style;
     private final StringProperty onClick;
+    private final StringProperty classType;
     
     /**
      * Default constructor.
@@ -34,12 +36,15 @@ public class UimlButton {
         
         this.style = new SimpleStringProperty();
         this.onClick = new SimpleStringProperty();
+        this.classType = new SimpleStringProperty();
     }
     
+    @Override
     public String getId() {
         return id.get();
     }
     
+    @Override
     public void setId(String id) {
         this.id.set(id);
     }
@@ -66,5 +71,15 @@ public class UimlButton {
     
     public void setOnClick(String onClick) {
         this.onClick.set(onClick);
+    }
+    
+    @Override
+    public String getClassType() {
+        return "Button";
+    }
+    
+    @Override
+    public void setClassType(String classType) {
+        this.classType.set(classType);
     }
 }
