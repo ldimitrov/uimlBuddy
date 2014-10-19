@@ -5,21 +5,39 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import org.controlsfx.dialog.Dialogs;
+import uimlbuddy.model.Constant;
 import uimlbuddy.UimlBuddy;
+import uimlbuddy.model.Document;
+import uimlbuddy.model.Part;
+import uimlbuddy.model.Property;
 import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.util.DocumentReader;
+import uimlbuddy.util.Helper;
 
 /**
  * FXML Controller class
@@ -38,13 +56,15 @@ public class EditorOverviewController implements Initializable {
     private TitledPane accMiscellaneous;
     @FXML
     private TextArea sourceEditor;
-    @FXML 
-    private Canvas canvasEditor;
+    @FXML
+    private Pane canvasEditor;
 
     // Reference to the main application.
-    private UimlBuddy uimlBuddy;    
-        
-    /** 
+    private UimlBuddy uimlBuddy;
+    private VBox stVbox;
+    private HBox stHbox;
+
+    /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
@@ -58,8 +78,6 @@ public class EditorOverviewController implements Initializable {
 //                + "\n\n\t<behavior>\n\n\t</behavior>"
 //                + "\n</interface>"
 //                + "\n</uiml>");
-        GraphicsContext gc = this.canvasEditor.getGraphicsContext2D();
-        drawShapes(gc);
     }
 
     /**
@@ -70,7 +88,7 @@ public class EditorOverviewController implements Initializable {
     public void setMainApp(UimlBuddy uimlBuddy) {
         this.uimlBuddy = uimlBuddy;
     }
-    
+
     /**
      * Loads a UIML document from a specified file.
      *
@@ -78,6 +96,7 @@ public class EditorOverviewController implements Initializable {
      * @throws java.io.IOException
      */
     public void loadUimlFile(File file) throws IOException {
+        System.out.println("LoadUimlFile");
         StringBuilder sb = new StringBuilder();
         try (FileInputStream fis = new FileInputStream(file);
                 BufferedInputStream bis = new BufferedInputStream(fis)) {
@@ -88,8 +107,13 @@ public class EditorOverviewController implements Initializable {
             e.printStackTrace();
         }
         try {
-            sourceEditor.setText(sb.toString());    
-            sourceEditor.setWrapText(true);            
+            sourceEditor.setText(sb.toString());
+            sourceEditor.setWrapText(true);
+            // Parsing file and loading into memory
+            Document doc = DocumentReader.Parser(file);
+            // Calling method for draw the component on canvas
+            System.out.println("Calling Draw on canvas");
+            drawOnCanvas(doc);
         } catch (Exception ex) {
             Logger.getLogger(RootLayoutController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,20 +121,22 @@ public class EditorOverviewController implements Initializable {
 
     /**
      * Handles mouse click event for inserting a Vertical Layout
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void handleVerticalLayout(MouseEvent event) {
         Dialogs.create()
                 .title("Test")
-                .masthead("OMG OMG OMG")
-                .message("So insert a layout a?")
+                .masthead("Test")
+                .message("So insert a layout?")
                 .showWarning();
     }
-    
+
     /**
      * Handles mouse click event for inserting a Button
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void handleButtonNew(MouseEvent event) {
@@ -120,24 +146,179 @@ public class EditorOverviewController implements Initializable {
             uimlBuddy.getUimlButtons().add(uimlButton);
         }
     }
-    
+
     /**
      * Handles a mause click event for inserting a Label
-     * @param event 
+     *
+     * @param event
      */
     @FXML
     private void handleLabelNew(MouseEvent event) {
         Dialogs.create()
                 .title("Insert Label")
                 .masthead("NOT YET DONE")
-                .message("Write the code, bitch!")
+                .message("just a simple dialog.")
                 .showWarning();
-    }   
+    }
 
-    private void drawShapes(GraphicsContext gc) {
-        gc.setFill(Color.GREEN);
-        gc.setStroke(Color.BLUE);
-        gc.strokeRoundRect(140, 60, 100, 30, 10, 10);
-        gc.fillText("Button", 170, 80);
+    /**
+     * Handle parsing of uiml document and initialize initial values
+     *
+     * @param document
+     */
+    private void drawOnCanvas(Document document) {
+        System.out.println("Inside Draw on Canvas Method");
+        // Setting static variable to null because when second time uiml file is opened it should not append controls
+        stHbox = null;
+        stVbox = null;
+        if (canvasEditor.getChildren().size() > 0) {
+            canvasEditor.getChildren().remove(0);
+        }
+        //Retrieving Property from the style tag for the Part
+        ArrayList<Property> properties = document.getStyle().getProperties();
+        // Store Property in to helper class
+        Helper.storePropety(properties);
+        // Retrieving Constant
+        ArrayList<Constant> contants = document.getContent().getConstants();
+        //Convering Constants to map
+        Helper.convertConstantListToMap(contants);
+        //Retrieving Parrent Part from the style tag
+        ArrayList<Part> layoutparts = document.getStructure().getParts();
+        //Iterating over 
+        for (int i = 0; i < layoutparts.size(); i++) {
+            VBox vbox = null;
+            HBox hbox = null;
+            Part p = layoutparts.get(i);
+            String layout = p.getClassType();
+            if (layout.equals("VerticalLayout")) {
+                vbox = new VBox();
+               // vbox.setPrefHeight(540);
+                // vbox.setPrefWidth(1020);
+            } else if (layout.equals("HorizontalLayout")) {
+                hbox = new HBox();
+            } else {
+                vbox = new VBox();
+               // vbox.setPrefHeight(540);
+                // vbox.setPrefWidth(1020);
+            }
+            System.out.println("part size " + p.getChildParts().size() + "  part id " + p.getId());
+            if (p.getChildParts().size() > 0) {
+                drawControls(p.getChildParts().iterator(), vbox, hbox, 0);
+            }
+        }
+        System.out.println("Control drawing completed");
+    }
+
+    /**
+     * drawControls method called by drawCanvas method to draw the component
+     * this method will call itself It will do the recursive approach to draw
+     * controls
+     *
+     * @param itr
+     * @param vbox
+     * @param hbox
+     * @param i
+     */
+    private void drawControls(Iterator<Part> itr, VBox vbox, HBox hbox, int i) {
+        Border border = new Border(new BorderStroke(Paint.valueOf("Black"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
+        if (vbox != null && i == 0) {
+            vbox.setPadding(new Insets(10));
+            vbox.setSpacing(8);
+            vbox.setBorder(border);
+            stVbox = vbox;
+            canvasEditor.getChildren().add(stVbox);
+        } else if (hbox != null && i == 0) {
+            hbox.setPadding(new Insets(15, 12, 15, 12));
+            hbox.setSpacing(10);
+            hbox.setBorder(border);
+            stHbox = hbox;
+            canvasEditor.getChildren().add(stHbox);
+        } else {
+            if (vbox != null) {
+                vbox.setPadding(new Insets(10));
+                vbox.setSpacing(8);
+                vbox.setBorder(border);
+                stVbox.getChildren().add(vbox);
+            } else if (hbox != null) {
+                hbox.setPadding(new Insets(15, 12, 15, 12));
+                hbox.setSpacing(10);
+                hbox.setBorder(border);
+                stVbox.getChildren().add(hbox);
+            }
+        }
+        // Looping over Parrent Conatainer which contains Layouts
+        while (itr.hasNext()) {
+            Part part = itr.next();
+            System.out.println("--- " + part.getClassType() + "   ** " + part.getId());
+            if (part.getClassType().equals("VerticalLayout")) {
+                drawControls(part.getChildParts().iterator(), new VBox(), null, 1);
+            } else if (part.getClassType().equals("HorizontalLayout")) {
+                drawControls(part.getChildParts().iterator(), null, new HBox(), 1);
+            } else if (part.getClassType().equals("Button")) {
+                System.out.println("Class Type Button");
+                Button btn = new Button();
+                // Calling method for applying property
+                applyPropertyOnButton(btn, part.getId());
+                if (vbox != null) {
+                    vbox.getChildren().add(btn);
+                } else if (hbox != null) {
+                    hbox.getChildren().add(btn);
+                }
+            } else if (part.getClassType().equals("TextInput")) {
+                System.out.println("Class type TextInput");
+                TextField txtInp = new TextField();
+                applyPropertyOnTextField(txtInp, part.getId());
+                if (vbox != null) {
+                    vbox.getChildren().add(txtInp);
+                } else if (hbox != null) {
+                    hbox.getChildren().add(txtInp);
+                }
+            }
+        }
+    }
+
+    private void applyPropertyOnButton(Button btn, String porpID) {
+        System.out.println("Inside Apply Property On Button method porpId " + porpID);
+
+        // Setting button common property
+        btn.setTextFill(Paint.valueOf("Green"));
+        Border bord = new Border(new BorderStroke(Paint.valueOf("Blue"), BorderStrokeStyle.SOLID, new CornerRadii(5), BorderWidths.DEFAULT));
+        btn.setBorder(bord);
+        Constant cons = Helper.getConstant().get(porpID);
+        if (cons != null) {
+            btn.setText(cons.getConstantName());
+        }
+        // Retrieving list of property
+        List<Property> propLs = Helper.getProperty(porpID);
+        Iterator<Property> propItr = propLs.iterator();
+        while (propItr.hasNext()) {
+            Property property = propItr.next();
+            String name = property.getPropertyName();
+            if (name != null && name.equals("label")) {
+                btn.setText(property.getText());
+            } else if (name != null && name.equals("style")) {
+                btn.setStyle(property.getText());
+            }
+        }
+    }
+
+    private void applyPropertyOnTextField(TextField txtInp, String porpID) {
+        // Retrieving list of property
+        List<Property> propLs = Helper.getProperty(porpID);
+        Iterator<Property> propItr = propLs.iterator();
+        Constant cons = Helper.getConstant().get(porpID);
+        if (cons != null) {
+            txtInp.setText(cons.getConstantName());
+        }
+
+        while (propItr.hasNext()) {
+            Property property = propItr.next();
+            String name = property.getPropertyName();
+            if (name != null && name.equals("label")) {
+                txtInp.setText(property.getText());
+            } else if (name.equals("style")) {
+                txtInp.setStyle(property.getText());
+            }
+        }
     }
 }

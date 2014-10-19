@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Model for style tag
  * @author Lyuben
  */
-class Style {
+public class Style {
 
     private ArrayList properties = new ArrayList();
 

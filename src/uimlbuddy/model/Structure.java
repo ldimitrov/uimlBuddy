@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *
  * @author Lyuben
  */
-class Structure {
+public class Structure {
     private ArrayList parts = new ArrayList();
     
     public void addPart(Part part) {

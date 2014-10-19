@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Model 
  * @author Lyuben
  */
-class Content {
+public class Content {
 
     private ArrayList constants = new ArrayList();
 

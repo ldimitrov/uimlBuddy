@@ -4,7 +4,7 @@ package uimlbuddy.model;
  *
  * @author Lyuben
  */
-class Constant {
+public class Constant {
 
     private String id;
     private String constantName;

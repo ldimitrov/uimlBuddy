@@ -79,7 +79,7 @@ public class ButtonDialogController implements Initializable {
            uimlButton.setLabel(labelField.getText());
            uimlButton.setStyle(styleField.getText());
            uimlButton.setOnClick(onClickField.getText());
-
+            
             okClicked = true;
             dialogStage.close();
         }

@@ -4,10 +4,11 @@ package uimlbuddy.model;
  *
  * @author Lyuben
  */
-class Property {
+public class Property {
     private String id;
     private String propertyName;
     private String text;
+    private Reference reference;
     
     public Property(String id, String propertyName, String text) {
         this.id = id;
@@ -25,6 +26,14 @@ class Property {
     
     public String getText() {
         return text;
+    }
+
+    public Reference getReference() {
+        return reference;
+    }
+
+    public void setReference(Reference reference) {
+        this.reference = reference;
     }
 
 }

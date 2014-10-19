@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import uimlbuddy.model.controlls.UimlButton;
@@ -49,6 +50,10 @@ public class UimlBuddy extends Application {
      */
     public Stage getPrimaryStage() {
         return primaryStage;
+    }
+
+    public BorderPane getRootLayout() {
+        return rootLayout;
     }
 
     /**

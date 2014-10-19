@@ -19,7 +19,8 @@ public class Document {
 
     /**
      * Get part structure
-     * @return 
+     *
+     * @return
      */
     public Structure getStructure() {
         return interFace.getStruct();
@@ -27,22 +28,25 @@ public class Document {
 
     /**
      * Get style for parts
-     * @return 
+     *
+     * @return
      */
     public Style getStyle() {
         return interFace.getStyle();
     }
-    
+
     /**
      * Get content for parts
+     *
      * @return
      */
     public Content getContent() {
         return interFace.getContnet();
     }
-    
+
     /**
      * Get behavior for parts
+     *
      * @return
      */
     public Behavior getBehavior() {
