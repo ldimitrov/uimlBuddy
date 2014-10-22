@@ -15,8 +15,10 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.view.ButtonDialogController;
 import uimlbuddy.view.EditorOverviewController;
+import uimlbuddy.view.LabelDialogController;
 import uimlbuddy.view.RootLayoutController;
 
 /**
@@ -27,11 +29,13 @@ public class UimlBuddy extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    // Buttons as an observable list collection - needed to sync the view with the data.
+    // Controlls as an observable list collection - needed to sync the view with the data.
     private ObservableList<UimlButton> uimlButtons = FXCollections.observableArrayList();
+    private ObservableList<UimlLabel> uimlLabels = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
     private ButtonDialogController buttonDialogController;
-    
+    private LabelDialogController labelDialogController;
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -74,11 +78,12 @@ public class UimlBuddy extends Application {
             RootLayoutController controller = loader.getController();
 //            controller.setMainApp(this);            
             controller.selectedFileProperty().addListener((obs, oldFile, newFile) -> {
-                if(newFile != null)
+                if (newFile != null) {
                     try {
                         editorOverviewController.loadUimlFile(newFile);
-                } catch (IOException ex) {
-                    Logger.getLogger(UimlBuddy.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(UimlBuddy.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             });
             primaryStage.show();
@@ -115,6 +120,15 @@ public class UimlBuddy extends Application {
      */
     public ObservableList<UimlButton> getUimlButtons() {
         return uimlButtons;
+    }
+
+    /**
+     * Returns the Labels as an observable.
+     *
+     * @return
+     */
+    public ObservableList<UimlLabel> getUimlLabels() {
+        return uimlLabels;
     }
 
     /**
@@ -158,8 +172,44 @@ public class UimlBuddy extends Application {
     }
 
     /**
-     * @param args the command line arguments
+     * Opens a dialog to add/edit uiml label details. If the user clicks ok, the
+     * changes are saved into the provided uimlButton object and true is
+     * returned.
+     *
+     * @param uimlLabel the uiml button object to be added/edited
+     * @return true if the use clicked ok, false otherwise.
      */
+    public boolean showUimlLabelDialog(UimlLabel uimlLabel) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/LabelDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("UIML Label");
+            dialogStage.getIcons().add(new Image("/assets/Label@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the uiml label into the controller
+            this.labelDialogController = loader.getController();
+            labelDialogController.setDialogStage(dialogStage);
+            labelDialogController.setLabel(uimlLabel);
+
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+
+            return labelDialogController.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         launch(args);
     }

@@ -17,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -37,6 +38,7 @@ import uimlbuddy.model.Document;
 import uimlbuddy.model.Part;
 import uimlbuddy.model.Property;
 import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.util.DocumentReader;
 import uimlbuddy.util.Helper;
 
@@ -111,7 +113,7 @@ public class EditorOverviewController implements Initializable {
             sourceEditor.setText(sb.toString());
             sourceEditor.setWrapText(true);
             // Parsing file and loading into memory
-            Document doc = DocumentReader.Parser(file,null);
+            Document doc = DocumentReader.Parser(file, null);
             // Calling method for draw the component on canvas
             System.out.println("Calling Draw on canvas");
             drawOnCanvas(doc);
@@ -155,25 +157,31 @@ public class EditorOverviewController implements Initializable {
      */
     @FXML
     private void handleLabelNew(MouseEvent event) {
-        Dialogs.create()
-                .title("Insert Label")
-                .masthead("NOT YET DONE")
-                .message("just a simple dialog.")
-                .showWarning();
+//        Dialogs.create()
+//                .title("Insert Label")
+//                .masthead("NOT YET DONE")
+//                .message("just a simple dialog.")
+//                .showWarning();
+        UimlLabel uimlLabel = new UimlLabel();
+        boolean okClicked = uimlBuddy.showUimlLabelDialog(uimlLabel);
+        if(okClicked) {
+            uimlBuddy.getUimlLabels().add(uimlLabel);
+        }
     }
-/**
- * Handle parsing of uiml document and initialize initial values 
- * @param document 
- */
+
+    /**
+     * Handle parsing of uiml document and initialize initial values
+     *
+     * @param document
+     */
     public void drawOnCanvas(Document document) {
         System.out.println("Inside Draw on Canvas Method");
         // Setting static variable to null because when second time uiml file is opened it should not append controls
-        stHbox=null;
-        stVbox=null;
-       if( canvasEditor.getChildren().size()>0)
-       {
-           canvasEditor.getChildren().remove(0);
-       }
+        stHbox = null;
+        stVbox = null;
+        if (canvasEditor.getChildren().size() > 0) {
+            canvasEditor.getChildren().remove(0);
+        }
         //Retrieving Property from the style tag for the Part
         ArrayList<Property> properties = document.getStyle().getProperties();
         // Store Property in to helper class
@@ -193,13 +201,13 @@ public class EditorOverviewController implements Initializable {
             if (layout.equals("VerticalLayout")) {
                 vbox = new VBox();
                // vbox.setPrefHeight(540);
-               // vbox.setPrefWidth(1020);
+                // vbox.setPrefWidth(1020);
             } else if (layout.equals("HorizontalLayout")) {
                 hbox = new HBox();
             } else {
                 vbox = new VBox();
                // vbox.setPrefHeight(540);
-               // vbox.setPrefWidth(1020);
+                // vbox.setPrefWidth(1020);
             }
             System.out.println("part size " + p.getChildParts().size() + "  part id " + p.getId());
             if (p.getChildParts().size() > 0) {
@@ -208,14 +216,17 @@ public class EditorOverviewController implements Initializable {
         }
         System.out.println("Control drawing completed");
     }
-/**
- * drawControls method called by drawCanvas method to draw the component this method will call itself
- * It will do the recursive approach to draw controls
- * @param itr
- * @param vbox
- * @param hbox
- * @param i 
- */
+
+    /**
+     * drawControls method called by drawCanvas method to draw the component
+     * this method will call itself It will do the recursive approach to draw
+     * controls
+     *
+     * @param itr
+     * @param vbox
+     * @param hbox
+     * @param i
+     */
     private void drawControls(Iterator<Part> itr, VBox vbox, HBox hbox, int i) {
         Border border = new Border(new BorderStroke(Paint.valueOf("Black"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
         if (vbox != null && i == 0) {
@@ -261,7 +272,17 @@ public class EditorOverviewController implements Initializable {
                 } else if (hbox != null) {
                     hbox.getChildren().add(btn);
                 }
-            } else if (part.getClassType().equals("TextInput")) {
+            } else if (part.getClassType().equals("Label")) {
+                System.out.println("Class Type Label");
+                Label lbl = new Label();
+                // Calling method for applying property
+                applyPropertyOnLabel(lbl, part.getId());
+                if (vbox != null) {
+                    vbox.getChildren().add(lbl);
+                } else if (hbox != null) {
+                    hbox.getChildren().add(lbl);
+                }
+            }else if (part.getClassType().equals("TextInput")) {
                 System.out.println("Class type TextInput");
                 TextField txtInp = new TextField();
                 applyPropertyOnTextField(txtInp, part.getId());
@@ -295,6 +316,26 @@ public class EditorOverviewController implements Initializable {
                 btn.setText(property.getText());
             } else if (name != null && name.equals("style")) {
                 btn.setStyle(property.getText());
+            }
+        }
+    }
+    
+    private void applyPropertyOnLabel(Label lbl, String porpID) {
+        System.out.println("Inside Apply Property On Label method porpId " + porpID);
+
+        // Setting button common property
+        lbl.setTextFill(Paint.valueOf("Green"));
+        
+        // Retrieving list of property
+        List<Property> propLs = Helper.getProperty(porpID);
+        Iterator<Property> propItr = propLs.iterator();
+        while (propItr.hasNext()) {
+            Property property = propItr.next();
+            String name = property.getPropertyName();
+            if (name != null && name.equals("label")) {
+                lbl.setText(property.getText());
+            } else if (name != null && name.equals("style")) {
+                lbl.setStyle(property.getText());
             }
         }
     }

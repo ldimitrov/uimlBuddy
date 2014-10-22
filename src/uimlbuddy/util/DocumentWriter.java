@@ -95,7 +95,7 @@ public class DocumentWriter {
             xmlOutput.output(document, System.out);
             String generatedXml = xmlOutput.outputString(document);
             uimlbuddy.UimlBuddy.editorOverviewController.sourceEditor.setText(generatedXml);
-        } catch (Exception ex) {
+        } catch (JDOMException | IOException ex) {
             ex.printStackTrace();
         }
     }
