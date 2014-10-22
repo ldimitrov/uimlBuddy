@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uiml>
+  <interface>
+    <structure> 
+        <part class="VerticalLayout" id="v1">
+            
+        </part>
+    </structure>
+    <style>
+     
+    </style>
+    <content>
+     
+    </content>
+    <behavior>
+    </behavior>
+  </interface>
+  <peers>
+  </peers>
+</uiml>

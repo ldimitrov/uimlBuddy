@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -55,7 +56,7 @@ public class EditorOverviewController implements Initializable {
     @FXML
     private TitledPane accMiscellaneous;
     @FXML
-    private TextArea sourceEditor;
+    public TextArea sourceEditor;
     @FXML
     private Pane canvasEditor;
 
@@ -110,7 +111,7 @@ public class EditorOverviewController implements Initializable {
             sourceEditor.setText(sb.toString());
             sourceEditor.setWrapText(true);
             // Parsing file and loading into memory
-            Document doc = DocumentReader.Parser(file);
+            Document doc = DocumentReader.Parser(file,null);
             // Calling method for draw the component on canvas
             System.out.println("Calling Draw on canvas");
             drawOnCanvas(doc);
@@ -160,20 +161,19 @@ public class EditorOverviewController implements Initializable {
                 .message("just a simple dialog.")
                 .showWarning();
     }
-
-    /**
-     * Handle parsing of uiml document and initialize initial values
-     *
-     * @param document
-     */
-    private void drawOnCanvas(Document document) {
+/**
+ * Handle parsing of uiml document and initialize initial values 
+ * @param document 
+ */
+    public void drawOnCanvas(Document document) {
         System.out.println("Inside Draw on Canvas Method");
         // Setting static variable to null because when second time uiml file is opened it should not append controls
-        stHbox = null;
-        stVbox = null;
-        if (canvasEditor.getChildren().size() > 0) {
-            canvasEditor.getChildren().remove(0);
-        }
+        stHbox=null;
+        stVbox=null;
+       if( canvasEditor.getChildren().size()>0)
+       {
+           canvasEditor.getChildren().remove(0);
+       }
         //Retrieving Property from the style tag for the Part
         ArrayList<Property> properties = document.getStyle().getProperties();
         // Store Property in to helper class
@@ -193,13 +193,13 @@ public class EditorOverviewController implements Initializable {
             if (layout.equals("VerticalLayout")) {
                 vbox = new VBox();
                // vbox.setPrefHeight(540);
-                // vbox.setPrefWidth(1020);
+               // vbox.setPrefWidth(1020);
             } else if (layout.equals("HorizontalLayout")) {
                 hbox = new HBox();
             } else {
                 vbox = new VBox();
                // vbox.setPrefHeight(540);
-                // vbox.setPrefWidth(1020);
+               // vbox.setPrefWidth(1020);
             }
             System.out.println("part size " + p.getChildParts().size() + "  part id " + p.getId());
             if (p.getChildParts().size() > 0) {
@@ -208,17 +208,14 @@ public class EditorOverviewController implements Initializable {
         }
         System.out.println("Control drawing completed");
     }
-
-    /**
-     * drawControls method called by drawCanvas method to draw the component
-     * this method will call itself It will do the recursive approach to draw
-     * controls
-     *
-     * @param itr
-     * @param vbox
-     * @param hbox
-     * @param i
-     */
+/**
+ * drawControls method called by drawCanvas method to draw the component this method will call itself
+ * It will do the recursive approach to draw controls
+ * @param itr
+ * @param vbox
+ * @param hbox
+ * @param i 
+ */
     private void drawControls(Iterator<Part> itr, VBox vbox, HBox hbox, int i) {
         Border border = new Border(new BorderStroke(Paint.valueOf("Black"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
         if (vbox != null && i == 0) {

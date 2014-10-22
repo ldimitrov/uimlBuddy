@@ -29,7 +29,7 @@ public class UimlBuddy extends Application {
     private BorderPane rootLayout;
     // Buttons as an observable list collection - needed to sync the view with the data.
     private ObservableList<UimlButton> uimlButtons = FXCollections.observableArrayList();
-    private EditorOverviewController editorOverviewController;
+    public static EditorOverviewController editorOverviewController;
     private ButtonDialogController buttonDialogController;
     
     @Override
@@ -100,7 +100,7 @@ public class UimlBuddy extends Application {
             // Set editor overview into the center of root layout.
             rootLayout.setCenter(editorOverview);
 
-            this.editorOverviewController = loader.getController();
+            UimlBuddy.editorOverviewController = loader.getController();
             editorOverviewController.setMainApp(this);
 
         } catch (IOException e) {

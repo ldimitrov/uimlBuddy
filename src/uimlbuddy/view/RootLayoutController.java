@@ -1,6 +1,7 @@
 package uimlbuddy.view;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,6 +32,7 @@ public class RootLayoutController implements Initializable, Observer {
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
     private FileChooser fileChooser;
+    private FileChooser xmlExporter;
     private File uimlFile;
     private FileChooser.ExtensionFilter extFilter1;
     private FileChooser.ExtensionFilter extFilter2;
@@ -63,7 +65,6 @@ public class RootLayoutController implements Initializable, Observer {
 //    public void setMainApp(UimlBuddy uimlBuddy) {
 //        this.uimlBuddy = uimlBuddy;
 //    }
-
     @FXML
     private void handleNew() {
         update(null, uimlBuddy);
@@ -90,6 +91,29 @@ public class RootLayoutController implements Initializable, Observer {
 
     @FXML
     private void handleSave(ActionEvent event) {
+        try {
+            xmlExporter = new FileChooser();
+            xmlExporter.setInitialDirectory(new File("."));
+            extFilter1 = new FileChooser.ExtensionFilter("UIML Documents (*.uiml)", "*.uiml");
+            extFilter2 = new FileChooser.ExtensionFilter("All Files", "*.*");
+
+            xmlExporter.getExtensionFilters().addAll(extFilter1, extFilter2);
+
+            uimlFile = xmlExporter.showSaveDialog(root.getScene().getWindow());
+
+            if (uimlFile != null) {
+                String xml = uimlbuddy.UimlBuddy.editorOverviewController.sourceEditor.getText();
+                if (!uimlFile.exists()) {
+                    uimlFile.createNewFile();
+                }
+                FileWriter fw = new FileWriter(uimlFile);
+                fw.write(xml);
+                fw.close();
+                System.out.println("File Saved Successfully");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
