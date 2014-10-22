@@ -109,7 +109,7 @@ public class LabelDialogController {
             errorMessage += "ID is required!\n";
         }
         if (textField.getText() == null || textField.getText().length() == 0) {
-            errorMessage += "Not a valid label!\n";
+            errorMessage += "Label cannot be empty!\n";
         }
         
         if (errorMessage.length() == 0) {
