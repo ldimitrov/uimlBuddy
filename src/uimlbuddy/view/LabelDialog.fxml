@@ -20,8 +20,8 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="ID" />
-            <Label text="Text" GridPane.rowIndex="1" />
+            <Label text="ID" textFill="RED" />
+            <Label text="Text" textFill="RED" GridPane.rowIndex="1" />
             <Label text="Style" GridPane.rowIndex="2" />
             <TextField fx:id="idField" GridPane.columnIndex="1" />
             <TextField fx:id="textField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
