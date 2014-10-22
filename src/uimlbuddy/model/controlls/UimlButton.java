@@ -15,7 +15,6 @@ public class UimlButton extends Part {
     private final StringProperty label;
     private final StringProperty style;
     private final StringProperty onClick;
-    private final StringProperty classType;
     
     /**
      * Default constructor.
@@ -36,7 +35,6 @@ public class UimlButton extends Part {
         
         this.style = new SimpleStringProperty();
         this.onClick = new SimpleStringProperty();
-        this.classType = new SimpleStringProperty();
     }
     
     @Override
@@ -71,15 +69,5 @@ public class UimlButton extends Part {
     
     public void setOnClick(String onClick) {
         this.onClick.set(onClick);
-    }
-    
-    @Override
-    public String getClassType() {
-        return "Button";
-    }
-    
-    @Override
-    public void setClassType(String classType) {
-        this.classType.set(classType);
     }
 }

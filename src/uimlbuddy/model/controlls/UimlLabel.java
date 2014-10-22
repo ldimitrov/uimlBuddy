@@ -14,7 +14,6 @@ public class UimlLabel extends Part {
     private final StringProperty id;
     private final StringProperty text;
     private final StringProperty style;
-    private final StringProperty classType;
 
     /**
      * Default constructor.
@@ -34,7 +33,6 @@ public class UimlLabel extends Part {
         this.text = new SimpleStringProperty(label);
 
         this.style = new SimpleStringProperty();
-        this.classType = new SimpleStringProperty();
     }
 
     @Override
@@ -61,15 +59,5 @@ public class UimlLabel extends Part {
 
     public void setStyle(String style) {
         this.style.set(style);
-    }
-
-    @Override
-    public String getClassType() {
-        return "Label";
-    }
-
-    @Override
-    public void setClassType(String classType) {
-        this.classType.set(classType);
     }
 }
