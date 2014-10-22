@@ -11,13 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
+import uimlbuddy.model.controlls.UimlTextInput;
 import uimlbuddy.view.ButtonDialogController;
 import uimlbuddy.view.EditorOverviewController;
+import uimlbuddy.view.ImageButtonDialogController;
 import uimlbuddy.view.LabelDialogController;
 import uimlbuddy.view.RootLayoutController;
 
@@ -32,9 +34,12 @@ public class UimlBuddy extends Application {
     // Controlls as an observable list collection - needed to sync the view with the data.
     private ObservableList<UimlButton> uimlButtons = FXCollections.observableArrayList();
     private ObservableList<UimlLabel> uimlLabels = FXCollections.observableArrayList();
+    private ObservableList<UimlImageButton> uimlImageButtons = FXCollections.observableArrayList();
+    private ObservableList<UimlTextInput> uimlTextInputs = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
     private ButtonDialogController buttonDialogController;
     private LabelDialogController labelDialogController;
+    private ImageButtonDialogController imageButtonDialogController;
 
     @Override
     public void start(Stage primaryStage) {
@@ -132,6 +137,15 @@ public class UimlBuddy extends Application {
     }
 
     /**
+     * Returns the Image Buttons as an observable.
+     *
+     * @return
+     */
+    public ObservableList<UimlImageButton> getUimlImageButtons() {
+        return uimlImageButtons;
+    }
+
+    /**
      * Opens a dialog to add/edit uiml button details. If the user clicks ok,
      * the changes are saved into the provided uimlButton object and true is
      * returned.
@@ -204,6 +218,45 @@ public class UimlBuddy extends Application {
             dialogStage.showAndWait();
 
             return labelDialogController.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * Opens a dialog to add/edit uiml Image Buttons details. If the user clicks
+     * ok, the changes are saved into the provided uimlButton object and true is
+     * returned.
+     *
+     * @param uimlImageButton the uiml button object to be added/edited
+     * @return true if the use clicked ok, false otherwise.
+     */
+    public boolean showUimlImageButtonDialog(UimlImageButton uimlImageButton) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/ImageButtonDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("UIML Image Button");
+            dialogStage.getIcons().add(new Image("/assets/ImageView@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the uiml label into the controller
+            this.imageButtonDialogController = loader.getController();
+            imageButtonDialogController.setDialogStage(dialogStage);
+            imageButtonDialogController.setImageButton(uimlImageButton);
+
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+
+            return imageButtonDialogController.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

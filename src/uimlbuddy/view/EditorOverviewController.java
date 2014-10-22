@@ -14,13 +14,13 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.Accordion;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -38,6 +38,7 @@ import uimlbuddy.model.Document;
 import uimlbuddy.model.Part;
 import uimlbuddy.model.Property;
 import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.util.DocumentReader;
 import uimlbuddy.util.Helper;
@@ -49,14 +50,6 @@ import uimlbuddy.util.Helper;
  */
 public class EditorOverviewController implements Initializable {
 
-    @FXML
-    private Accordion accordion;
-    @FXML
-    private TitledPane accContainers;
-    @FXML
-    private TitledPane accControlls;
-    @FXML
-    private TitledPane accMiscellaneous;
     @FXML
     public TextArea sourceEditor;
     @FXML
@@ -151,17 +144,26 @@ public class EditorOverviewController implements Initializable {
     }
 
     /**
-     * Handles a mause click event for inserting a Label
+     * Handles a mouse click event for inserting a Label
+     *
+     * @param event
+     */
+    @FXML
+    private void handleImageButtonNew(MouseEvent event) {
+        UimlImageButton uimlImageButton = new UimlImageButton();
+        boolean okClicked = uimlBuddy.showUimlImageButtonDialog(uimlImageButton);
+        if(okClicked) {
+            uimlBuddy.getUimlImageButtons().add(uimlImageButton);
+        }
+    }
+    
+    /**
+     * Handles a mouse click event for inserting a Label
      *
      * @param event
      */
     @FXML
     private void handleLabelNew(MouseEvent event) {
-//        Dialogs.create()
-//                .title("Insert Label")
-//                .masthead("NOT YET DONE")
-//                .message("just a simple dialog.")
-//                .showWarning();
         UimlLabel uimlLabel = new UimlLabel();
         boolean okClicked = uimlBuddy.showUimlLabelDialog(uimlLabel);
         if(okClicked) {
@@ -282,7 +284,21 @@ public class EditorOverviewController implements Initializable {
                 } else if (hbox != null) {
                     hbox.getChildren().add(lbl);
                 }
-            }else if (part.getClassType().equals("TextInput")) {
+                
+            }else if (part.getClassType().equals("ImageButton")) {
+                System.out.println("Class Type Image Button");
+                Image img = new Image("/assets/ImageView@2x.png");
+                // Calling method for applying property
+                Canvas canvas = new Canvas(50,50);
+                GraphicsContext gc = canvas.getGraphicsContext2D();
+                gc.drawImage(img, 0, 0);
+                if (vbox != null) {
+                    vbox.getChildren().add(canvas);
+                } else if (hbox != null) {
+                    hbox.getChildren().add(canvas);
+                }
+
+            } else if (part.getClassType().equals("TextInput")) {
                 System.out.println("Class type TextInput");
                 TextField txtInp = new TextField();
                 applyPropertyOnTextField(txtInp, part.getId());
