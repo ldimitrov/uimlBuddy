@@ -147,6 +147,11 @@ public class RootLayoutController implements Initializable, Observer {
                 .message("A grapgical editor for UIML\n\nAuthor: Lyuben Dimitrov\nVersion: 1.0v")
                 .showInformation();
     }
+    
+    @FXML
+    private void handleTransform() {
+        
+    }
 
     @Override
     public void update(Observable o, Object arg) {

@@ -92,6 +92,15 @@
                               <Insets right="3.0" />
                            </HBox.margin>
                         </Button>
+                        <Button layoutX="108.0" layoutY="10.0" mnemonicParsing="false" onAction="#handleTransform">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0">
+                                 <image>
+                                    <Image url="@../../assets/preferences.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </HBox>
               </items>
