@@ -22,6 +22,7 @@ import uimlbuddy.view.EditorOverviewController;
 import uimlbuddy.view.ImageButtonDialogController;
 import uimlbuddy.view.LabelDialogController;
 import uimlbuddy.view.RootLayoutController;
+import uimlbuddy.view.TextInputDialogController;
 
 /**
  *
@@ -40,6 +41,7 @@ public class UimlBuddy extends Application {
     private ButtonDialogController buttonDialogController;
     private LabelDialogController labelDialogController;
     private ImageButtonDialogController imageButtonDialogController;
+    private TextInputDialogController textInputDialogController;
 
     @Override
     public void start(Stage primaryStage) {
@@ -144,6 +146,15 @@ public class UimlBuddy extends Application {
     public ObservableList<UimlImageButton> getUimlImageButtons() {
         return uimlImageButtons;
     }
+    
+    /**
+     * Returns the Image Buttons as an observable.
+     *
+     * @return
+     */
+    public ObservableList<UimlTextInput> getUimlTextInputs() {
+        return uimlTextInputs;
+    }
 
     /**
      * Opens a dialog to add/edit uiml button details. If the user clicks ok,
@@ -218,6 +229,46 @@ public class UimlBuddy extends Application {
             dialogStage.showAndWait();
 
             return labelDialogController.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    /**
+     * Opens a dialog to add/edit uiml text input details. If the user clicks ok,
+     * the changes are saved into the provided uimlButton object and true is
+     * returned.
+     *
+     * @param uimlTextInput the uiml button object to be added/edited
+     * @return true if the use clicked ok, false otherwise.
+     */
+    public boolean showUimlTextInputDialog(UimlTextInput uimlTextInput) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/TextInputDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("UIML Text Input Field");
+            dialogStage.getIcons().add(new Image("/assets/TextField@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the uiml button into the controller
+            //ButtonDialogController controller = loader.getController();
+            this.textInputDialogController = loader.getController();
+            textInputDialogController.setDialogStage(dialogStage);
+            textInputDialogController.setTextInput(uimlTextInput);
+
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+
+            return textInputDialogController.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

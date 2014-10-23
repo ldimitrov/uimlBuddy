@@ -79,7 +79,7 @@
                                           <Label text="Radio Button" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                           <Label onMouseClicked="#handleLabelNew" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <Label text="Date Picker" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                          <Label text="Text Input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label onMouseClicked="#handleTextInputNew" text="Text Input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <Label text="Text Output" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                           <Label text="Drop Down" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                                           <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleButtonNew" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -92,7 +92,7 @@
                                                 <Image url="@../../assets/Label@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleTextInputNew" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/TextField@2x.png" />
                                              </image>

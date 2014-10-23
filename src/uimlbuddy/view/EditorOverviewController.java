@@ -40,6 +40,7 @@ import uimlbuddy.model.Property;
 import uimlbuddy.model.controlls.UimlButton;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
+import uimlbuddy.model.controlls.UimlTextInput;
 import uimlbuddy.util.DocumentReader;
 import uimlbuddy.util.Helper;
 
@@ -168,6 +169,20 @@ public class EditorOverviewController implements Initializable {
         boolean okClicked = uimlBuddy.showUimlLabelDialog(uimlLabel);
         if(okClicked) {
             uimlBuddy.getUimlLabels().add(uimlLabel);
+        }
+    }
+    
+    /**
+     * Handles a mouse click event for inserting a Text Input
+     *
+     * @param event
+     */
+    @FXML
+    private void handleTextInputNew(MouseEvent event) {
+        UimlTextInput uimlTextInput = new UimlTextInput();
+        boolean okClicked = uimlBuddy.showUimlTextInputDialog(uimlTextInput);
+        if(okClicked) {
+            uimlBuddy.getUimlTextInputs().add(uimlTextInput);
         }
     }
 
@@ -301,7 +316,9 @@ public class EditorOverviewController implements Initializable {
             } else if (part.getClassType().equals("TextInput")) {
                 System.out.println("Class type TextInput");
                 TextField txtInp = new TextField();
+                Label lbl = new Label();
                 applyPropertyOnTextField(txtInp, part.getId());
+                applyPropertyOnLabel(lbl, part.getId());
                 if (vbox != null) {
                     vbox.getChildren().add(txtInp);
                 } else if (hbox != null) {

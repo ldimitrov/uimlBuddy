@@ -21,10 +21,10 @@ public class ImageButtonDialogController {
     @FXML // fx:id="labelField"
     private TextField labelField;
 
-    @FXML // fx:id="labelField"
+    @FXML // fx:id="sourceField"
     private TextField sourceField;
 
-    @FXML
+    @FXML // fx:id="browseButton"
     private Button browseButton;
 
     private Stage dialogStage;
