@@ -33,32 +33,20 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
                                           <Label onMouseClicked="#handleVerticalLayout" text="Vertical Layout" GridPane.columnIndex="1" />
-                                          <Label text="Horizontal Layout" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                          <Label text="&lt;div/&gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                          <Label text="&lt;span/&gt;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                          <Label onMouseClicked="#handleHorizontalLayout" text="Horizontal Layout" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleVerticalLayout" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/VBox@2x.png" />
                                              </image>
                                           </ImageView>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleHorizontalLayout" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                              <image>
                                                 <Image url="@../../assets/HBox@2x.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                             <image>
-                                                <Image url="@../../assets/HTMLTag@2x.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                                             <image>
-                                                <Image url="@../../assets/HTMLTag@2x.png" />
                                              </image>
                                           </ImageView>
                                        </children>
@@ -67,7 +55,7 @@
                               </AnchorPane>
                         </content>
                       </TitledPane>
-                      <TitledPane fx:id="accControlls" animated="false" text="Controlls">
+                      <TitledPane fx:id="accControlls" animated="false" expanded="false" text="Controlls">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -148,7 +136,7 @@
                               </AnchorPane>
                         </content>
                       </TitledPane>
-                      <TitledPane fx:id="accMiscellaneous" animated="false" text="Miscellaneous">
+                      <TitledPane fx:id="accMiscellaneous" animated="false" expanded="false" text="Miscellaneous">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>

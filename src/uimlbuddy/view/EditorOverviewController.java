@@ -31,17 +31,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.Constant;
 import uimlbuddy.UimlBuddy;
 import uimlbuddy.model.Document;
 import uimlbuddy.model.Part;
 import uimlbuddy.model.Property;
+import uimlbuddy.model.containers.HorizontalLayout;
+import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.model.controlls.UimlButton;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.model.controlls.UimlTextInput;
 import uimlbuddy.util.DocumentReader;
+import uimlbuddy.util.DocumentWriter;
 import uimlbuddy.util.Helper;
 
 /**
@@ -53,6 +55,7 @@ public class EditorOverviewController implements Initializable {
 
     @FXML
     public TextArea sourceEditor;
+
     @FXML
     private Pane canvasEditor;
 
@@ -123,11 +126,36 @@ public class EditorOverviewController implements Initializable {
      */
     @FXML
     private void handleVerticalLayout(MouseEvent event) {
-        Dialogs.create()
-                .title("Test")
-                .masthead("Test")
-                .message("So insert a layout?")
-                .showWarning();
+        DocumentWriter.initialize();
+        VerticalLayout vl = new VerticalLayout();
+        boolean okClicked = uimlBuddy.showVerticalLayoutDialog(vl);
+        if (okClicked) {
+            uimlBuddy.getVerticalLayouts().add(vl);
+        }
+//        Dialogs.create()
+//                .title("Test")
+//                .masthead("Test")
+//                .message("So insert a Vertical layout?")
+//                .showWarning();
+//        DocumentWriter.initialize();
+//        DocumentWriter.addLayout("VerticalLayout", "vlayout1");
+    }
+
+    @FXML
+    private void handleHorizontalLayout(MouseEvent event) {
+        DocumentWriter.initialize();
+        HorizontalLayout hl = new HorizontalLayout();
+        boolean okClicked = uimlBuddy.showHorizontalLayoutDialog(hl);
+        if (okClicked) {
+            uimlBuddy.getHorizontalLayouts().add(hl);
+        }
+//        Dialogs.create()
+//                .title("Test")
+//                .masthead("Test")
+//                .message("So insert a Horizontal layout?")
+//                .showWarning();
+//        DocumentWriter.initialize();
+//        DocumentWriter.addLayout("HorizontalLayout", "hlayout1");
     }
 
     /**
@@ -153,11 +181,11 @@ public class EditorOverviewController implements Initializable {
     private void handleImageButtonNew(MouseEvent event) {
         UimlImageButton uimlImageButton = new UimlImageButton();
         boolean okClicked = uimlBuddy.showUimlImageButtonDialog(uimlImageButton);
-        if(okClicked) {
+        if (okClicked) {
             uimlBuddy.getUimlImageButtons().add(uimlImageButton);
         }
     }
-    
+
     /**
      * Handles a mouse click event for inserting a Label
      *
@@ -167,11 +195,11 @@ public class EditorOverviewController implements Initializable {
     private void handleLabelNew(MouseEvent event) {
         UimlLabel uimlLabel = new UimlLabel();
         boolean okClicked = uimlBuddy.showUimlLabelDialog(uimlLabel);
-        if(okClicked) {
+        if (okClicked) {
             uimlBuddy.getUimlLabels().add(uimlLabel);
         }
     }
-    
+
     /**
      * Handles a mouse click event for inserting a Text Input
      *
@@ -181,7 +209,7 @@ public class EditorOverviewController implements Initializable {
     private void handleTextInputNew(MouseEvent event) {
         UimlTextInput uimlTextInput = new UimlTextInput();
         boolean okClicked = uimlBuddy.showUimlTextInputDialog(uimlTextInput);
-        if(okClicked) {
+        if (okClicked) {
             uimlBuddy.getUimlTextInputs().add(uimlTextInput);
         }
     }
@@ -215,16 +243,16 @@ public class EditorOverviewController implements Initializable {
             HBox hbox = null;
             Part p = layoutparts.get(i);
             String layout = p.getClassType();
-            if (layout.equals("VerticalLayout")) {
-                vbox = new VBox();
-               // vbox.setPrefHeight(540);
-                // vbox.setPrefWidth(1020);
-            } else if (layout.equals("HorizontalLayout")) {
-                hbox = new HBox();
-            } else {
-                vbox = new VBox();
-               // vbox.setPrefHeight(540);
-                // vbox.setPrefWidth(1020);
+            switch (layout) {
+                case "VerticalLayout":
+                    vbox = new VBox();
+                    break;
+                case "HorizontalLayout":
+                    hbox = new HBox();
+                    break;
+                default:
+                    vbox = new VBox();
+                    break;
             }
             System.out.println("part size " + p.getChildParts().size() + "  part id " + p.getId());
             if (p.getChildParts().size() > 0) {
@@ -299,12 +327,12 @@ public class EditorOverviewController implements Initializable {
                 } else if (hbox != null) {
                     hbox.getChildren().add(lbl);
                 }
-                
-            }else if (part.getClassType().equals("ImageButton")) {
+
+            } else if (part.getClassType().equals("ImageButton")) {
                 System.out.println("Class Type Image Button");
                 Image img = new Image("/assets/ImageView@2x.png");
                 // Calling method for applying property
-                Canvas canvas = new Canvas(50,50);
+                Canvas canvas = new Canvas(50, 50);
                 GraphicsContext gc = canvas.getGraphicsContext2D();
                 gc.drawImage(img, 0, 0);
                 if (vbox != null) {
@@ -318,7 +346,6 @@ public class EditorOverviewController implements Initializable {
                 TextField txtInp = new TextField();
                 Label lbl = new Label();
                 applyPropertyOnTextField(txtInp, part.getId());
-                applyPropertyOnLabel(lbl, part.getId());
                 if (vbox != null) {
                     vbox.getChildren().add(txtInp);
                 } else if (hbox != null) {
@@ -352,13 +379,17 @@ public class EditorOverviewController implements Initializable {
             }
         }
     }
-    
+
     private void applyPropertyOnLabel(Label lbl, String porpID) {
         System.out.println("Inside Apply Property On Label method porpId " + porpID);
 
+        Constant cons = Helper.getConstant().get(porpID);
+        if (cons != null) {
+            lbl.setText(cons.getConstantName());
+        }
         // Setting button common property
         lbl.setTextFill(Paint.valueOf("Green"));
-        
+
         // Retrieving list of property
         List<Property> propLs = Helper.getProperty(porpID);
         Iterator<Property> propItr = propLs.iterator();
@@ -374,20 +405,20 @@ public class EditorOverviewController implements Initializable {
     }
 
     private void applyPropertyOnTextField(TextField txtInp, String porpID) {
-        // Retrieving list of property
-        List<Property> propLs = Helper.getProperty(porpID);
-        Iterator<Property> propItr = propLs.iterator();
         Constant cons = Helper.getConstant().get(porpID);
         if (cons != null) {
             txtInp.setText(cons.getConstantName());
         }
+
+        List<Property> propLs = Helper.getProperty(porpID);
+        Iterator<Property> propItr = propLs.iterator();
 
         while (propItr.hasNext()) {
             Property property = propItr.next();
             String name = property.getPropertyName();
             if (name != null && name.equals("label")) {
                 txtInp.setText(property.getText());
-            } else if (name.equals("style")) {
+            } else if (name != null && name.equals("style")) {
                 txtInp.setStyle(property.getText());
             }
         }
