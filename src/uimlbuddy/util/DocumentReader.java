@@ -27,6 +27,8 @@ import uimlbuddy.model.Style;
  */
 public class DocumentReader {
 
+    public static org.jdom.Document domDocument;
+
     /**
      * Parse UIML file and generate object model using jDOM
      *
@@ -41,8 +43,10 @@ public class DocumentReader {
         if (file != null) {
             SAXBuilder builder = new SAXBuilder();
             doc = builder.build(file);
+            domDocument = doc;
         } else {
             doc = document;
+            domDocument = doc;
         }
 
         Element root = doc.getRootElement(); //uiml tag
@@ -62,7 +66,7 @@ public class DocumentReader {
         if (contentNode != null) {
             extractContent(contentNode.getChildren(), content.getConstants());
         }
-		//TODO
+        //TODO
         // reading behaviour
         //TODO
         Interface interphace = new Interface(structure, style, content);
@@ -88,12 +92,9 @@ public class DocumentReader {
                 Element element = ((Element) next);
                 Part part = new Part(element.getAttribute("id").getValue(), element.getAttribute("class").getValue());
                 if (parent == null && struct != null) // add first level parts to object model
-                {
                     struct.addPart(part);
-                } else if (parent != null) // add not first level part to hierachy
-                {
+                else if (parent != null) // add not first level part to hierachy
                     parent.addChildPart(part);
-                }
                 extractParts(part, element.getChildren().listIterator(), null);
             }
         }

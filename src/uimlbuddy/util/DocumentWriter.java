@@ -1,6 +1,7 @@
 package uimlbuddy.util;
 
 import java.io.IOException;
+import java.util.List;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -10,19 +11,23 @@ import org.jdom.output.XMLOutputter;
 
 /**
  *
- * @author kundan
+ * @author Lyuben
  */
 public class DocumentWriter {
 
     public static Document document;
 
-    public DocumentWriter() {
+    public static void initialize() {
         try {
             if (document == null) {
-                SAXBuilder builder = new SAXBuilder();
-                document = builder.build(this.getClass().getResourceAsStream("/uimltemplate.uiml"));
+                document = DocumentReader.domDocument;
+                System.out.println("-------- " + document);
+                if (document == null) {
+                    SAXBuilder builder = new SAXBuilder();
+                    document = builder.build(DocumentWriter.class.getResourceAsStream("/uimltemplate.uiml"));
+                }
             }
-        } catch (JDOMException | IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -32,18 +37,26 @@ public class DocumentWriter {
         Element root = document.getRootElement(); //uiml tag
         Element interfaceNode = root.getChild("interface"); //interface tag
         Element structureNode = interfaceNode.getChild("structure");
-        Element partNode = structureNode.getChild("part");
-
-//        NodeList nl = document.getElementsByTagName("part");
-//        Node nd = nl.item(0);
-//        Element part = document.createElement("part");
-//        part.setAttribute("class", classType);
-//        part.setAttribute("id", id);
-//        nd.appendChild(part);
-//        
+        Element partNode = null;
+        if (DocumentReader.domDocument == null) {
+            partNode = structureNode.getChild("part");
+        } else {
+            List<Element> lsp = structureNode.getChildren("part");
+            for (Element element : lsp) {
+                String str = element.getAttribute("class").getValue();
+                if (str.equalsIgnoreCase("VerticalLayout") || str.equalsIgnoreCase("HorizontalLayout")) {
+                    partNode = element;
+                    break;
+                }
+            }
+            if (partNode == null) {
+                partNode = structureNode;
+            }
+        }
         Element part = new Element("part");
         part.setAttribute("id", id);
         part.setAttribute("class", classType);
+
         partNode.addContent(part);
     }
 
@@ -53,8 +66,16 @@ public class DocumentWriter {
         Element styleNode = interfaceNode.getChild("style");
         Element prop = new Element("property");
         prop.setAttribute("part-name", partName);
-        prop.setAttribute("name", name);
-        prop.setText(text);
+        if (name.equalsIgnoreCase("style")) {
+            prop.setAttribute("name", name);
+            prop.setText(text);
+        } else {
+            Element ref = new Element("reference");
+            ref.setAttribute("constant-name", partName);
+            prop.addContent(ref);
+            addContent(partName, text);
+        }
+        // Add Content and Constant
         styleNode.addContent(prop);
     }
 
@@ -80,6 +101,17 @@ public class DocumentWriter {
         Element callNode = new Element("call");
         callNode.setAttribute("name", name);
         actionNode.addContent(callNode);
+    }
+
+    private static void addContent(String id, String label) {
+        Element root = document.getRootElement(); //uiml tag
+        Element interfaceNode = root.getChild("interface"); //interface tag
+        Element contentNode = interfaceNode.getChild("content");
+        Element constantNode = new Element("constant");
+        constantNode.setAttribute("id", id);
+        constantNode.setAttribute("label", label);
+        contentNode.addContent(constantNode);
+
     }
 
     public static void updateCanvas() {

@@ -13,16 +13,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import uimlbuddy.model.containers.HorizontalLayout;
+import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.model.controlls.UimlButton;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.model.controlls.UimlTextInput;
 import uimlbuddy.view.ButtonDialogController;
 import uimlbuddy.view.EditorOverviewController;
+import uimlbuddy.view.HorizontalLayoutController;
 import uimlbuddy.view.ImageButtonDialogController;
 import uimlbuddy.view.LabelDialogController;
 import uimlbuddy.view.RootLayoutController;
 import uimlbuddy.view.TextInputDialogController;
+import uimlbuddy.view.VerticalLayoutController;
 
 /**
  *
@@ -33,11 +37,15 @@ public class UimlBuddy extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
     // Controlls as an observable list collection - needed to sync the view with the data.
+    private ObservableList<VerticalLayout> verticalLayouts = FXCollections.observableArrayList();
+    private ObservableList<HorizontalLayout> horizontalLayouts = FXCollections.observableArrayList();
     private ObservableList<UimlButton> uimlButtons = FXCollections.observableArrayList();
     private ObservableList<UimlLabel> uimlLabels = FXCollections.observableArrayList();
     private ObservableList<UimlImageButton> uimlImageButtons = FXCollections.observableArrayList();
     private ObservableList<UimlTextInput> uimlTextInputs = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
+    private VerticalLayoutController verticalLayoutController;
+    private HorizontalLayoutController horizontalLayoutController;
     private ButtonDialogController buttonDialogController;
     private LabelDialogController labelDialogController;
     private ImageButtonDialogController imageButtonDialogController;
@@ -121,6 +129,24 @@ public class UimlBuddy extends Application {
     }
 
     /**
+     * Returns the Vertical Layouts as an observable.
+     *
+     * @return
+     */
+    public ObservableList<VerticalLayout> getVerticalLayouts() {
+        return verticalLayouts;
+    }
+    
+    /**
+     * Returns the Horizontal Layouts as an observable.
+     *
+     * @return
+     */
+    public ObservableList<HorizontalLayout> getHorizontalLayouts() {
+        return horizontalLayouts;
+    }
+
+    /**
      * Returns the Buttons as an observable.
      *
      * @return
@@ -146,7 +172,7 @@ public class UimlBuddy extends Application {
     public ObservableList<UimlImageButton> getUimlImageButtons() {
         return uimlImageButtons;
     }
-    
+
     /**
      * Returns the Image Buttons as an observable.
      *
@@ -156,6 +182,83 @@ public class UimlBuddy extends Application {
         return uimlTextInputs;
     }
 
+    /**
+     * Opens a dialog to add/edit uiml vertical layout details. If the user clicks ok,
+     * the changes are saved into the provided uimlButton object and true is
+     * returned.
+     *
+     * @param vl the uiml vertical layout object to be added/edited
+     * @return true if the use clicked ok, false otherwise.
+     */
+    public boolean showVerticalLayoutDialog(VerticalLayout vl) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/VerticalLayout.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Vertical Layout");
+            dialogStage.getIcons().add(new Image("/assets/VBox@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the uiml button into the controller
+            this.verticalLayoutController = loader.getController();
+            verticalLayoutController.setDialogStage(dialogStage);
+            verticalLayoutController.setVerticalLayout(vl);
+
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+
+            return verticalLayoutController.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    /**
+     * Opens a dialog to add/edit uiml Horizontal Layout details. If the user clicks ok,
+     * the changes are saved into the provided uimlButton object and true is
+     * returned.
+     *
+     * @param hl the uiml horizontal layout object to be added/edited
+     * @return true if the use clicked ok, false otherwise.
+     */
+    public boolean showHorizontalLayoutDialog(HorizontalLayout hl) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/HorizontalLayout.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Horizontal Layout");
+            dialogStage.getIcons().add(new Image("/assets/HBox@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the uiml button into the controller
+            this.horizontalLayoutController = loader.getController();
+            horizontalLayoutController.setDialogStage(dialogStage);
+            horizontalLayoutController.setHorizontalLayout(hl);
+
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+
+            return horizontalLayoutController.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }   
+    
     /**
      * Opens a dialog to add/edit uiml button details. If the user clicks ok,
      * the changes are saved into the provided uimlButton object and true is
@@ -234,10 +337,10 @@ public class UimlBuddy extends Application {
             return false;
         }
     }
-    
+
     /**
-     * Opens a dialog to add/edit uiml text input details. If the user clicks ok,
-     * the changes are saved into the provided uimlButton object and true is
+     * Opens a dialog to add/edit uiml text input details. If the user clicks
+     * ok, the changes are saved into the provided uimlButton object and true is
      * returned.
      *
      * @param uimlTextInput the uiml button object to be added/edited
@@ -317,4 +420,5 @@ public class UimlBuddy extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
