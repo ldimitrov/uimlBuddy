@@ -22,19 +22,19 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="sourceField" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets right="70.0" />
-               </GridPane.margin>
-            </TextField>
             <Label text="ID" textFill="RED" />
             <Label text="Label" GridPane.rowIndex="1" />
             <Label text="Source" textFill="RED" GridPane.rowIndex="2" />
             <Label text="onClick" textFill="RED" GridPane.rowIndex="3" />
             <TextField fx:id="idField" GridPane.columnIndex="1" />
             <TextField fx:id="labelField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="sourceField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets right="70.0" />
+               </GridPane.margin>
+            </TextField>
             <TextField fx:id="onClickField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="browseButton" mnemonicParsing="false" onAction="#onBrowseClick" text="Browse ..." textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="browseButton" mnemonicParsing="false" onAction="#onBrowseClick" text="Browse ..." textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="190.0" />
                </GridPane.margin>
