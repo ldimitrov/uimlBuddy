@@ -37,7 +37,10 @@ public class RootLayoutController implements Initializable, Observer {
     private FileChooser.ExtensionFilter extFilter1;
     private FileChooser.ExtensionFilter extFilter2;
     private final ObjectProperty<File> selectedFile = new SimpleObjectProperty<>(this, "selectedFile");
-
+    private EditorOverviewController editor;
+    
+    public static String xslt = "/xslt/UIML-XSLT/main.xsl";
+    
     public final ObjectProperty<File> selectedFileProperty() {
         return selectedFile;
     }
@@ -150,7 +153,7 @@ public class RootLayoutController implements Initializable, Observer {
     
     @FXML
     private void handleTransform() {
-        
+        editor.sourceEditor.setText("blabla");
     }
 
     @Override
