@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uiml>
+    <interface>
+        <structure>
+            <part class="Container" id="c1">           
+                <part class="Group" id="input">
+                    <part class="TextInput" id="firstName"/>
+                    <part class="TextInput" id="lastName"/>
+                </part>
+                <part class="Group" id="output">
+                    <part class="TextOutput" id="firstNameOutput"/>
+                    <part class="TextOutput" id="lastNameOutput"/>
+                </part>
+                <part class="Button" id="b1"/>
+            </part> 
+        </structure>
+        <style>
+            <property part-name="firstName">
+                <reference constant-name="firstName"/>
+            </property>
+            <property part-name="lastName">
+                <reference constant-name="lastName"/>
+            </property>
+            <property part-name="firstNameOutput">
+                <reference constant-name="firstNameOutput"/>
+            </property>
+            <property part-name="lastNameOutput">
+                <reference constant-name="lastNameOutput"/>
+            </property>
+            <property part-name="b1" name="label">Submit</property>
+            <property part-name="b1" name="style">btn btn-danger</property>
+        </style>
+        <content>
+            <constant id="firstName" label="Enter your first name:"/>
+            <constant id="lastName" label="Enter your last name:"/>
+            <constant id="firstNameOutput" label="Output first name:"/>
+            <constant id="lastNameOutput" label="Output last name:"/>
+        </content>
+        <behavior>
+            <rule>
+                <condition>
+                    <event part-name="firstName" class="binding"/>                 
+                </condition>
+                <action>
+                    <property part-name="firstName" bind="firstName"/>
+                </action>
+            </rule>
+            <rule>
+                <condition>
+                    <event part-name="firstNameOutput" class="binded"/>                 
+                </condition>
+                <action>
+                    <property part-name="firstNameOutput" bind="firstName"/>                        
+                </action>
+            </rule>
+            <rule>
+                <condition>
+                    <event part-name="lastName" class="binding"/>                 
+                </condition>
+                <action>
+                    <property part-name="lastName" bind="lastName"/>
+                </action>
+            </rule>
+            <rule>
+                <condition>
+                    <event part-name="lastNameOutput" class="binded"/>                 
+                </condition>
+                <action>
+                    <property part-name="lastNameOutput" bind="lastName"/>                        
+                </action>
+            </rule>
+        </behavior>
+    </interface>
+    <peers>
+    </peers>
+</uiml>

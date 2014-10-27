@@ -27,6 +27,7 @@ import uimlbuddy.view.LabelDialogController;
 import uimlbuddy.view.RootLayoutController;
 import uimlbuddy.view.TextInputDialogController;
 import uimlbuddy.view.VerticalLayoutController;
+import uimlbuddy.view.XFormsTransformViewController;
 
 /**
  *
@@ -44,6 +45,7 @@ public class UimlBuddy extends Application {
     private ObservableList<UimlImageButton> uimlImageButtons = FXCollections.observableArrayList();
     private ObservableList<UimlTextInput> uimlTextInputs = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
+    public static XFormsTransformViewController xFormsTransformViewController;
     private VerticalLayoutController verticalLayoutController;
     private HorizontalLayoutController horizontalLayoutController;
     private ButtonDialogController buttonDialogController;

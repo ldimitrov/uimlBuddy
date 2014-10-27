@@ -2,19 +2,28 @@ package uimlbuddy.view;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamSource;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
@@ -38,9 +47,9 @@ public class RootLayoutController implements Initializable, Observer {
     private FileChooser.ExtensionFilter extFilter2;
     private final ObjectProperty<File> selectedFile = new SimpleObjectProperty<>(this, "selectedFile");
     private EditorOverviewController editor;
-    
-    public static String xslt = "/xslt/UIML-XSLT/main.xsl";
-    
+    public static String xslt = "xslt/main.xsl";
+    //public 
+
     public final ObjectProperty<File> selectedFileProperty() {
         return selectedFile;
     }
@@ -150,10 +159,26 @@ public class RootLayoutController implements Initializable, Observer {
                 .message("A grapgical editor for UIML\n\nAuthor: Lyuben Dimitrov\nVersion: 1.0v")
                 .showInformation();
     }
-    
+
     @FXML
     private void handleTransform() {
-        editor.sourceEditor.setText("blabla");
+        String uimlSource = uimlbuddy.UimlBuddy.editorOverviewController.sourceEditor.getText();
+        try {
+            UimlTransform(uimlSource, xslt);
+            //Transformer transformer = tFactory.newTransformer(new StreamSource());
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("XFormsTransformView.fxml"));
+            Parent xformsView = (Parent) loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("XForms Result");
+            stage.setScene(new Scene(xformsView));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(XFormsTransformViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -165,6 +190,17 @@ public class RootLayoutController implements Initializable, Observer {
                 e.printStackTrace();
             }
         });
+    }
+
+    private static void UimlTransform(String sourcePath, String xlstPath) {
+        TransformerFactory tFactory = TransformerFactory.newInstance();
+        try {
+            Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xslt)));
+//            transformer.transform(new StreamSource(new File(uimlSource)), 
+//                    uimlbuddy.UimlBuddy.xFormsTransformViewController.resultTextArea.setText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
