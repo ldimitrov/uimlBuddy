@@ -33,7 +33,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>Simple Calc</title>         
+                <title>Empty</title>         
                 <!--<style>
                     btn-danger {
                     color:red
