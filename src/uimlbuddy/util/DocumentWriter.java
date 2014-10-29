@@ -27,7 +27,7 @@ public class DocumentWriter {
                     document = builder.build(DocumentWriter.class.getResourceAsStream("/uimltemplate.uiml"));
                 }
             }
-        } catch (Exception ex) {
+        } catch (JDOMException | IOException ex) {
             ex.printStackTrace();
         }
     }
