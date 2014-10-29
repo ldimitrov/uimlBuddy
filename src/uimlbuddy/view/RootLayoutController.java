@@ -3,6 +3,7 @@ package uimlbuddy.view;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringBufferInputStream;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,15 +19,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
+import org.jdom.Document;
 import uimlbuddy.UimlBuddy;
 
 /**
@@ -47,8 +51,10 @@ public class RootLayoutController implements Initializable, Observer {
     private FileChooser.ExtensionFilter extFilter2;
     private final ObjectProperty<File> selectedFile = new SimpleObjectProperty<>(this, "selectedFile");
     private EditorOverviewController editor;
-    public static String xslt = "xslt/main.xsl";
-    //public 
+    private static String xsltPath = "src/xslt/main.xsl";
+    public String xslt = "C:\\Users\\Lyuben\\SkyDrive\\Documents\\UIML-XSLT\\main.xsl";
+    public static String resultDir = "src/xslt/";
+    private Document xsltFile;
 
     public final ObjectProperty<File> selectedFileProperty() {
         return selectedFile;
@@ -162,18 +168,28 @@ public class RootLayoutController implements Initializable, Observer {
 
     @FXML
     private void handleTransform() {
-        String uimlSource = uimlbuddy.UimlBuddy.editorOverviewController.sourceEditor.getText();
+        String source = uimlbuddy.UimlBuddy.editorOverviewController.sourceEditor.getText();
+        String result = "";
+        TransformerFactory tFactory = TransformerFactory.newInstance();
         try {
-            UimlTransform(uimlSource, xslt);
-            //Transformer transformer = tFactory.newTransformer(new StreamSource());
+            Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xslt)));
+            //transformer.transform(new StreamSource(new StringBufferInputStream(source)), new StreamResult(new File(resultDir)));
+            transformer.transform(new StreamSource(new StringBufferInputStream(source)), new StreamResult(new File(result)));
+
+            uimlbuddy.UimlBuddy.xFormsTransformViewController.resultTextArea.setText(result);
+            uimlbuddy.UimlBuddy.xFormsTransformViewController.showResult();
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
+    }
+    
+    private void showResult() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("XFormsTransformView.fxml"));
             Parent xformsView = (Parent) loader.load();
             Stage stage = new Stage();
             stage.setTitle("XForms Result");
+            stage.getIcons().add(new Image("/assets/preferences.png"));
             stage.setScene(new Scene(xformsView));
             stage.show();
         } catch (IOException ex) {
@@ -191,16 +207,4 @@ public class RootLayoutController implements Initializable, Observer {
             }
         });
     }
-
-    private static void UimlTransform(String sourcePath, String xlstPath) {
-        TransformerFactory tFactory = TransformerFactory.newInstance();
-        try {
-            Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xslt)));
-//            transformer.transform(new StreamSource(new File(uimlSource)), 
-//                    uimlbuddy.UimlBuddy.xFormsTransformViewController.resultTextArea.setText());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }
