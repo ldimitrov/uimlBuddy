@@ -12,3 +12,4 @@
 hs_err_pid*
 /src/assets/Thumbs.db
 /dist/
+/src/output.html

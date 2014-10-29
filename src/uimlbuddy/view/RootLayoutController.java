@@ -169,12 +169,12 @@ public class RootLayoutController implements Initializable, Observer {
     @FXML
     private void handleTransform() {
         String source = uimlbuddy.UimlBuddy.editorOverviewController.sourceEditor.getText();
-        String result = "";
+        String result = "src/output.html";
         TransformerFactory tFactory = TransformerFactory.newInstance();
         try {
             Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xslt)));
             //transformer.transform(new StreamSource(new StringBufferInputStream(source)), new StreamResult(new File(resultDir)));
-            transformer.transform(new StreamSource(new StringBufferInputStream(source)), new StreamResult(new File(result)));
+            transformer.transform(new StreamSource(new StringBufferInputStream(source)), new StreamResult(result));
 
             uimlbuddy.UimlBuddy.xFormsTransformViewController.resultTextArea.setText(result);
             uimlbuddy.UimlBuddy.xFormsTransformViewController.showResult();
