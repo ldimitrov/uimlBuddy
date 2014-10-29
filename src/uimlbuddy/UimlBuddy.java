@@ -1,18 +1,28 @@
 package uimlbuddy;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.containers.HorizontalLayout;
 import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.model.controlls.UimlButton;
@@ -46,6 +56,7 @@ public class UimlBuddy extends Application {
     private ObservableList<UimlTextInput> uimlTextInputs = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
     public static XFormsTransformViewController xFormsTransformViewController;
+    private RootLayoutController rootController;
     private VerticalLayoutController verticalLayoutController;
     private HorizontalLayoutController horizontalLayoutController;
     private ButtonDialogController buttonDialogController;
@@ -62,8 +73,32 @@ public class UimlBuddy extends Application {
         initRootLayout();
 
         showEditorOverview();
+        
+        primaryStage.setOnCloseRequest((WindowEvent event) -> {
+            event.consume();
+            try {
+                handleExitApp();
+            } catch (Exception e) {
+            }
+        });
     }
 
+    public void handleExitApp() {
+        Action response = Dialogs.create()
+                .title("Looks like you are leaving uimlBuddy")
+                .masthead("Exit uimlBuddy")
+                .message("Are you sure you want to quit uimlBuddy?")
+                .actions(Dialog.Actions.OK, Dialog.Actions.CANCEL)
+                .showConfirm();
+
+        if (response == Dialog.Actions.OK) {
+//            Stage stageClose = uimlBuddy.getPrimaryStage();
+            primaryStage.close();
+            //System.exit(0);
+        } else if (response == Dialog.Actions.CANCEL) {
+
+        }
+    }
     /**
      * Returns the main stage.
      *
@@ -138,7 +173,7 @@ public class UimlBuddy extends Application {
     public ObservableList<VerticalLayout> getVerticalLayouts() {
         return verticalLayouts;
     }
-    
+
     /**
      * Returns the Horizontal Layouts as an observable.
      *
@@ -185,9 +220,9 @@ public class UimlBuddy extends Application {
     }
 
     /**
-     * Opens a dialog to add/edit uiml vertical layout details. If the user clicks ok,
-     * the changes are saved into the provided uimlButton object and true is
-     * returned.
+     * Opens a dialog to add/edit uiml vertical layout details. If the user
+     * clicks ok, the changes are saved into the provided uimlButton object and
+     * true is returned.
      *
      * @param vl the uiml vertical layout object to be added/edited
      * @return true if the use clicked ok, false otherwise.
@@ -222,10 +257,11 @@ public class UimlBuddy extends Application {
             return false;
         }
     }
+
     /**
-     * Opens a dialog to add/edit uiml Horizontal Layout details. If the user clicks ok,
-     * the changes are saved into the provided uimlButton object and true is
-     * returned.
+     * Opens a dialog to add/edit uiml Horizontal Layout details. If the user
+     * clicks ok, the changes are saved into the provided uimlButton object and
+     * true is returned.
      *
      * @param hl the uiml horizontal layout object to be added/edited
      * @return true if the use clicked ok, false otherwise.
@@ -259,8 +295,8 @@ public class UimlBuddy extends Application {
             e.printStackTrace();
             return false;
         }
-    }   
-    
+    }
+
     /**
      * Opens a dialog to add/edit uiml button details. If the user clicks ok,
      * the changes are saved into the provided uimlButton object and true is

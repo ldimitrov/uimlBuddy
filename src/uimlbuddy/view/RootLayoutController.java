@@ -3,6 +3,7 @@ package uimlbuddy.view;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringBufferInputStream;
 import java.net.URL;
 import java.util.Observable;
@@ -15,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -133,23 +135,23 @@ public class RootLayoutController implements Initializable, Observer {
     @FXML
     private void handleSaveAs(ActionEvent event) {
     }
+    
+    @FXML
+    private void handleDeveloperView(ActionEvent event) throws Exception {
+        DeveloperViewController dvc = (DeveloperViewController) replaceSceneContent("/view/DeveloperView.fxml");
+    }
 
     @FXML
-    private void handleExit(ActionEvent event) {
-        event.consume();
+    public void handleExit() {
         Action response = Dialogs.create()
                 .title("Looks like you are leaving uimlBuddy")
                 .masthead("Exit uimlBuddy")
-                .message("Are you sure you want to quit uimlBuddy?")
+                .message("Are you sure you want to quit uimlBuddy and close all windows?")
                 .actions(Dialog.Actions.OK, Dialog.Actions.CANCEL)
                 .showConfirm();
-
         if (response == Dialog.Actions.OK) {
-            Stage stageClose = uimlBuddy.getPrimaryStage();
-            stageClose.close();
-            //System.exit(0);
+            System.exit(0);
         } else if (response == Dialog.Actions.CANCEL) {
-
         }
     }
 
@@ -181,6 +183,21 @@ public class RootLayoutController implements Initializable, Observer {
         } catch (IOException | TransformerException e) {
             e.printStackTrace();
         }
+    }
+    
+    private Initializable replaceSceneContent(String fxml) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        InputStream in = UimlBuddy.class.getResourceAsStream(fxml);
+        loader.setBuilderFactory(new JavaFXBuilderFactory());
+        loader.setLocation(UimlBuddy.class.getResource(fxml));
+        Parent page;
+        try {
+            page = (Parent) loader.load(in);
+        } finally {
+            in.close();
+        }
+        uimlBuddy.getPrimaryStage().getScene().setRoot(page);
+        return (Initializable) loader.getController();
     }
 
     @Override

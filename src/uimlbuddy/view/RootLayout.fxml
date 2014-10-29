@@ -39,10 +39,9 @@
                     <MenuItem mnemonicParsing="false" text="Delete" />
                   </items>
                 </Menu>
-                  <Menu mnemonicParsing="false" text="Windows">
+                  <Menu mnemonicParsing="false" text="Developer">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="XSLT Source" />
-                        <MenuItem mnemonicParsing="false" text="CSS Source" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleDeveloperView" text="Open Developer View" />
                      </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
