@@ -5,10 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -78,9 +81,10 @@ public class RootLayoutController implements Initializable, Observer {
      *
      * @param uimlBuddy
      */
-//    public void setMainApp(UimlBuddy uimlBuddy) {
-//        this.uimlBuddy = uimlBuddy;
-//    }
+    public void setMainApp(UimlBuddy uimlBuddy) {
+        this.uimlBuddy = uimlBuddy;
+    }
+    
     @FXML
     private void handleNew() {
         update(null, uimlBuddy);
@@ -135,11 +139,29 @@ public class RootLayoutController implements Initializable, Observer {
     @FXML
     private void handleSaveAs(ActionEvent event) {
     }
-    
+
     @FXML
-    private void handleDeveloperView(ActionEvent event) throws Exception {
-        DeveloperViewController dvc = (DeveloperViewController) replaceSceneContent("/view/DeveloperView.fxml");
+    private void handleDeveloperView() throws Exception {
+        DeveloperViewController c = (DeveloperViewController) replaceSceneContent("view/DeveloperView.fxml");
     }
+    
+    private Initializable replaceSceneContent(String fxml) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        InputStream in = UimlBuddy.class.getResourceAsStream(fxml);
+        loader.setBuilderFactory(new JavaFXBuilderFactory());
+        loader.setLocation(UimlBuddy.class.getResource(fxml));
+        Parent page;
+        try {
+            page = (Parent) loader.load(in);
+        } finally {
+            in.close();
+        }
+        Stage stage = uimlBuddy.getPrimaryStage();
+        stage.getScene().setRoot(page);
+        //primaryStage.getScene().setRoot(page);
+        return (Initializable) loader.getController();
+    }
+
 
     @FXML
     public void handleExit() {
@@ -168,11 +190,13 @@ public class RootLayoutController implements Initializable, Observer {
     private void handleTransform() {
         String source = uimlbuddy.UimlBuddy.editorOverviewController.sourceEditor.getText();
         String result = "src/output.html";
+//        StringWriter sw = new StringWriter();
+//        StreamResult result = new StreamResult(sw);
         TransformerFactory tFactory = TransformerFactory.newInstance();
         try {
             Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xsltPath)));
-            transformer.transform(new StreamSource(new StringBufferInputStream(source)), new StreamResult(result));
-
+            transformer.transform(new StreamSource(new StringBufferInputStream(source)), new StreamResult(new File(result)));
+            
             FXMLLoader loader = new FXMLLoader(getClass().getResource("XFormsTransformView.fxml"));
             Parent xformsView = (Parent) loader.load();
             Stage stage = new Stage();
@@ -180,24 +204,12 @@ public class RootLayoutController implements Initializable, Observer {
             stage.getIcons().add(new Image("/assets/preferences.png"));
             stage.setScene(new Scene(xformsView));
             stage.show();
+//            xtc.showResult(sw.toString());
+//            XFormsTransformViewController controller = new XFormsTransformViewController();
+//            controller.showResult(sw);
         } catch (IOException | TransformerException e) {
             e.printStackTrace();
         }
-    }
-    
-    private Initializable replaceSceneContent(String fxml) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        InputStream in = UimlBuddy.class.getResourceAsStream(fxml);
-        loader.setBuilderFactory(new JavaFXBuilderFactory());
-        loader.setLocation(UimlBuddy.class.getResource(fxml));
-        Parent page;
-        try {
-            page = (Parent) loader.load(in);
-        } finally {
-            in.close();
-        }
-        uimlBuddy.getPrimaryStage().getScene().setRoot(page);
-        return (Initializable) loader.getController();
     }
 
     @Override
