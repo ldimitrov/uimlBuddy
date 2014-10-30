@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uimlbuddy.view.DeveloperViewController">
+   <children>
+      <VBox prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="410.0" prefWidth="210.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <MenuBar>
+                    <menus>
+                      <Menu mnemonicParsing="false" text="File">
+                        <items>
+                          <MenuItem mnemonicParsing="false" onAction="#handleNewDev" text="New" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleSaveDev" text="Save" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" onAction="#handleExitDev" text="Exit" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Views">
+                        <items>
+                          <MenuItem mnemonicParsing="false" onAction="#handleUimlView" text="Open UIML View" />
+                        </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" onAction="#handleAboutDev" text="Help">
+                        <items>
+                          <MenuItem mnemonicParsing="false" text="About" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0">
+                    <items>
+                      <Button mnemonicParsing="false" onAction="#handleSaveDev" text="Save" />
+                    </items>
+                  </ToolBar>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <TreeView fx:id="filesTree" prefHeight="200.0" prefWidth="200.0" />
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
+                          <tabs>
+                            <Tab fx:id="mainTab" text="Main XSLT" />
+                          </tabs>
+                        </TabPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
