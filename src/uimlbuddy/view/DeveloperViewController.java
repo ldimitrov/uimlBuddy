@@ -21,7 +21,6 @@ import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.UimlBuddy;
-import uimlbuddy.util.FileTreeItem;
 
 /**
  * FXML Controller class for Developer's View
@@ -45,29 +44,24 @@ public class DeveloperViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         File currentDir = new File("src/xslt"); // current directory
-        findFiles(currentDir);
+        findFiles(currentDir, null);
     }
 
-    public void findFiles(File dir) {
-        TreeItem<File> root = new TreeItem<>(new File("Files:"));
+    private void findFiles(File dir, TreeItem<File> parent) {
+        TreeItem<File> root = new TreeItem<>(dir);
         root.setExpanded(true);
-        try {
-            File[] files = dir.listFiles();
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    System.out.println("directory:" + file.getCanonicalPath());
-                    root.getChildren().add(new TreeItem<>(file));
-                    findFiles(file);
-                } else {
-                    System.out.println("     file:" + file.getCanonicalPath());
-                    root.getChildren().add(new TreeItem<>(file));
-                }
-                
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                findFiles(file, root);
+            } else {
+                root.getChildren().add(new TreeItem<>(file));
             }
-
+        }
+        if (parent == null) {
             filesTree.setRoot(root);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            parent.getChildren().add(root);
         }
     }
 
