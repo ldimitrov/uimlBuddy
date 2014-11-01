@@ -1,6 +1,8 @@
 package uimlbuddy.view;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -14,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
@@ -31,6 +34,9 @@ public class DeveloperViewController implements Initializable {
 
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
+    
+     @FXML // fx:id="developerEditorTextArea"
+    private TextArea developerEditorTextArea;
 
     @FXML // fx:id="filesTree"
     private TreeView<File> filesTree;
@@ -43,8 +49,29 @@ public class DeveloperViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        assert filesTree != null : "fx:id=\"filesTree\" was not injected: check your FXML file 'DeveloperView.fxml'.";
+        assert developerEditorTextArea != null : "fx:id=\"developerEditorTextArea\" was not injected: check your FXML file 'DeveloperView.fxml'.";
+        
         File currentDir = new File("src/xslt"); // current directory
         findFiles(currentDir, null);
+        
+        StringBuilder contents = new StringBuilder();
+
+        try {
+            BufferedReader input = new BufferedReader(new FileReader("src/xslt/main.xsl"));
+            try {
+                String line = null;
+                while ((line = input.readLine()) != null) {
+                    contents.append(line);
+                    contents.append(System.getProperty("line.separator"));
+                }
+            } finally {
+                input.close();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        developerEditorTextArea.setText(contents.toString());
     }
 
     private void findFiles(File dir, TreeItem<File> parent) {
