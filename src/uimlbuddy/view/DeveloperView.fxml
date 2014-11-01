@@ -46,7 +46,10 @@
                         <TreeView fx:id="filesTree" prefHeight="200.0" prefWidth="200.0" />
                         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
                           <tabs>
-                            <Tab fx:id="mainTab" text="Main XSLT" />
+                            <Tab fx:id="mainTab" text="Main XSLT">
+                                 <content>
+                                    <TextArea prefHeight="200.0" prefWidth="200.0" />
+                                 </content></Tab>
                           </tabs>
                         </TabPane>
                      </children>

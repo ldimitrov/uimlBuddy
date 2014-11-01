@@ -1,5 +1,7 @@
 package uimlbuddy.view;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Observable;
@@ -12,12 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
 import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.UimlBuddy;
+import uimlbuddy.util.FileTreeItem;
 
 /**
  * FXML Controller class for Developer's View
@@ -28,10 +32,9 @@ public class DeveloperViewController implements Initializable {
 
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
-    private EditorOverviewController editorController;
 
     @FXML // fx:id="filesTree"
-    private TreeView<String> filesTree;
+    private TreeView<File> filesTree;
 
     @FXML // fx:id="mainTab"
     private Tab mainTab;
@@ -41,6 +44,31 @@ public class DeveloperViewController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        File currentDir = new File("src/xslt"); // current directory
+        findFiles(currentDir);
+    }
+
+    public void findFiles(File dir) {
+        TreeItem<File> root = new TreeItem<>(new File("Files:"));
+        root.setExpanded(true);
+        try {
+            File[] files = dir.listFiles();
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    System.out.println("directory:" + file.getCanonicalPath());
+                    root.getChildren().add(new TreeItem<>(file));
+                    findFiles(file);
+                } else {
+                    System.out.println("     file:" + file.getCanonicalPath());
+                    root.getChildren().add(new TreeItem<>(file));
+                }
+                
+            }
+
+            filesTree.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -78,7 +106,7 @@ public class DeveloperViewController implements Initializable {
 
     @FXML
     void handleUimlView(ActionEvent event) throws Exception {
-        editorController = (EditorOverviewController) replaceSceneContent("view/EditorOverview.fxml");
+        EditorOverviewController editorController = (EditorOverviewController) replaceSceneContent("view/EditorOverview.fxml");
     }
 
     public Initializable replaceSceneContent(String fxml) throws Exception {

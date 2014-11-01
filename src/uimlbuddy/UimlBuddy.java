@@ -1,20 +1,13 @@
 package uimlbuddy;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -30,7 +23,6 @@ import uimlbuddy.model.controlls.UimlButton;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.model.controlls.UimlTextInput;
-import uimlbuddy.util.FileTreeItem;
 import uimlbuddy.view.ButtonDialogController;
 import uimlbuddy.view.DeveloperViewController;
 import uimlbuddy.view.EditorOverviewController;
@@ -169,20 +161,15 @@ public class UimlBuddy extends Application {
         }
     }
 
+    /**
+     * Shows the developer view with all panels inside the root layout.
+     */
     public void showDeveloperView() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(UimlBuddy.class.getResource("view/DeveloperView.fxml"));
             AnchorPane developerView = (AnchorPane) loader.load();
-            TreeItem<String> root = new FileTreeItem(Paths.get("src"), true);
-            TreeView filesTree = new TreeView();
-            filesTree.setRoot(root);
-            /*
-             public DeveloperViewController() {
-             TreeItem<String> root = new FileTreeItem(Paths.get("src"), true);
-             this.filesTree = new TreeView<String>(root);
-             }
-             */
+
             // Set editor overview into the center of root layout.
             rootLayout.setCenter(developerView);
 
