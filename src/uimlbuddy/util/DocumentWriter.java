@@ -11,7 +11,7 @@ import org.jdom.output.XMLOutputter;
 
 /**
  *
- * @author Lyuben
+ * @author Kundan
  */
 public class DocumentWriter {
 
@@ -65,15 +65,12 @@ public class DocumentWriter {
         Element interfaceNode = root.getChild("interface"); //interface tag
         Element styleNode = interfaceNode.getChild("style");
         Element prop = new Element("property");
-        prop.setAttribute("part-name", partName);
+        prop.setAttribute("id", partName);
         if (name.equalsIgnoreCase("style")) {
             prop.setAttribute("name", name);
             prop.setText(text);
         } else {
-            Element ref = new Element("reference");
-            ref.setAttribute("constant-name", partName);
-            prop.addContent(ref);
-            addContent(partName, text);
+            addContentLabel(partName, text);
         }
         // Add Content and Constant
         styleNode.addContent(prop);
@@ -91,7 +88,7 @@ public class DocumentWriter {
         ruleNode.addContent(conditionNode);
 
         Element eventNode = new Element("event");
-        eventNode.setAttribute("part-name", id);
+        eventNode.setAttribute("id", id);
         eventNode.setAttribute("class", classType);
         conditionNode.addContent(eventNode);
 
@@ -103,7 +100,7 @@ public class DocumentWriter {
         actionNode.addContent(callNode);
     }
 
-    private static void addContent(String id, String label) {
+    private static void addContentLabel(String id, String label) {
         Element root = document.getRootElement(); //uiml tag
         Element interfaceNode = root.getChild("interface"); //interface tag
         Element contentNode = interfaceNode.getChild("content");
@@ -111,7 +108,30 @@ public class DocumentWriter {
         constantNode.setAttribute("id", id);
         constantNode.setAttribute("label", label);
         contentNode.addContent(constantNode);
-
+    }
+    
+    public static void addContentSource(String partName, String source) {
+        Element root = document.getRootElement(); //uiml tag
+        Element interfaceNode = root.getChild("interface"); //interface tag
+        Element contentNode = interfaceNode.getChild("content");
+        Element constantNode = new Element("constant");
+        constantNode.setAttribute("id", partName);
+        constantNode.setAttribute("src", source);
+        contentNode.addContent(constantNode);
+    }
+    
+    public static void addContentImageButton(String partName, String content, String text) {
+        Element root = document.getRootElement(); //uiml tag
+        Element interfaceNode = root.getChild("interface"); //interface tag
+        Element contentNode = interfaceNode.getChild("content");
+        Element constantNode = new Element("constant");
+        constantNode.setAttribute("id", partName);
+        if(content.equalsIgnoreCase("label")) {
+            constantNode.setAttribute("label", text);
+        } else {
+            constantNode.setAttribute("src", text);
+        }
+        contentNode.addContent(constantNode);
     }
 
     public static void updateCanvas() {
@@ -132,4 +152,5 @@ public class DocumentWriter {
         }
     }
 
+    
 }

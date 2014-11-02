@@ -116,9 +116,9 @@ public class ImageButtonDialogController {
 
             DocumentWriter.addPart("ImageButton", idField.getText());
             // Adding Label
-            DocumentWriter.addProperty(idField.getText(), "label", labelField.getText());
+            DocumentWriter.addContentImageButton(idField.getText(), "label", labelField.getText());
             // Adding Style
-            DocumentWriter.addProperty(idField.getText(), "src", sourceField.getText());
+            DocumentWriter.addContentImageButton(idField.getText(), "src", sourceField.getText());
             //Adding Behavior
             DocumentWriter.addBehaviour(idField.getText(), "ButtonPressed", onClickField.getText());
 

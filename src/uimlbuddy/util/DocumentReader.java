@@ -22,7 +22,7 @@ import uimlbuddy.model.Style;
 /**
  * Read UIML file into object model
  *
- * @author Lyuben
+ * @author Kundan
  *
  */
 public class DocumentReader {
@@ -60,8 +60,8 @@ public class DocumentReader {
         Element styleNode = interfaceNode.getChild("style"); // style tag
         Style style = new Style();
         extractStyle(styleNode.getChildren(), style.getProperties());
-        // reading contetn
-        Element contentNode = interfaceNode.getChild("content"); // style tag
+        // reading content
+        Element contentNode = interfaceNode.getChild("content"); // content tag
         Content content = new Content();
         if (contentNode != null) {
             extractContent(contentNode.getChildren(), content.getConstants());
@@ -104,10 +104,10 @@ public class DocumentReader {
         Iterator itr = styleList.iterator();
         while (itr.hasNext()) {
             Element element = ((Element) itr.next());
-            Property property = new Property(element.getAttributeValue("part-name"),
+            Property property = new Property(element.getAttributeValue("id"),
                     element.getAttributeValue("name"), element.getText());
             // Retrieving Child element
-            Element el = element.getChild("reference");
+            Element el = element.getChild("property");
             if (el != null) {
                 String constentNm = el.getAttribute("constant-name").getValue();
                 Reference ref = new Reference();
