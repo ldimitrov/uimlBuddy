@@ -70,7 +70,11 @@ public class VerticalLayoutController {
             
             DocumentWriter.addPart("VerticalLayout", idField.getText());
             // Adding Style
-            DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
+            if (styleField.getText().isEmpty()) {
+                System.out.println("No style provided");
+            } else {
+                DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
+            }
             
             // Drawing on Canvas
             DocumentWriter.updateCanvas();
