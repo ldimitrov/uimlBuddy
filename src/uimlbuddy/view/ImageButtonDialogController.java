@@ -116,7 +116,11 @@ public class ImageButtonDialogController {
 
             DocumentWriter.addPart("ImageButton", idField.getText());
             // Adding Label
-            DocumentWriter.addContentImageButton(idField.getText(), "label", labelField.getText());
+            if (labelField.getText().isEmpty()) {
+                System.out.println("No label provided");
+            } else {
+                DocumentWriter.addContentImageButton(idField.getText(), "label", labelField.getText());
+            }
             // Adding Style
             DocumentWriter.addContentImageButton(idField.getText(), "src", sourceField.getText());
             //Adding Behavior
