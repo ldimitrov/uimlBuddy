@@ -100,7 +100,7 @@ public class DocumentWriter {
         actionNode.addContent(callNode);
     }
 
-    private static void addContentLabel(String id, String label) {
+    public static void addContentLabel(String id, String label) {
         Element root = document.getRootElement(); //uiml tag
         Element interfaceNode = root.getChild("interface"); //interface tag
         Element contentNode = interfaceNode.getChild("content");
@@ -109,14 +109,14 @@ public class DocumentWriter {
         constantNode.setAttribute("label", label);
         contentNode.addContent(constantNode);
     }
-    
+
     public static void addContentImageButton(String partName, String content, String text) {
         Element root = document.getRootElement(); //uiml tag
         Element interfaceNode = root.getChild("interface"); //interface tag
         Element contentNode = interfaceNode.getChild("content");
         Element constantNode = new Element("constant");
         constantNode.setAttribute("id", partName);
-        if(content.equalsIgnoreCase("label")) {
+        if (content.equalsIgnoreCase("label")) {
             constantNode.setAttribute("label", text);
         } else {
             constantNode.setAttribute("src", text);
@@ -142,5 +142,4 @@ public class DocumentWriter {
         }
     }
 
-    
 }
