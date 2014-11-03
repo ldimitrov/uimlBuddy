@@ -110,16 +110,6 @@ public class DocumentWriter {
         contentNode.addContent(constantNode);
     }
     
-    public static void addContentSource(String partName, String source) {
-        Element root = document.getRootElement(); //uiml tag
-        Element interfaceNode = root.getChild("interface"); //interface tag
-        Element contentNode = interfaceNode.getChild("content");
-        Element constantNode = new Element("constant");
-        constantNode.setAttribute("id", partName);
-        constantNode.setAttribute("src", source);
-        contentNode.addContent(constantNode);
-    }
-    
     public static void addContentImageButton(String partName, String content, String text) {
         Element root = document.getRootElement(); //uiml tag
         Element interfaceNode = root.getChild("interface"); //interface tag
