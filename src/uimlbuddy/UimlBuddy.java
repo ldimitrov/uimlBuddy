@@ -20,11 +20,13 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.containers.HorizontalLayout;
 import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.model.controlls.UimlDropdown;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.model.controlls.UimlTextInput;
 import uimlbuddy.view.ButtonDialogController;
 import uimlbuddy.view.DeveloperViewController;
+import uimlbuddy.view.DropdownDialogController;
 import uimlbuddy.view.EditorOverviewController;
 import uimlbuddy.view.HorizontalLayoutController;
 import uimlbuddy.view.ImageButtonDialogController;
@@ -49,6 +51,7 @@ public class UimlBuddy extends Application {
     private ObservableList<UimlLabel> uimlLabels = FXCollections.observableArrayList();
     private ObservableList<UimlImageButton> uimlImageButtons = FXCollections.observableArrayList();
     private ObservableList<UimlTextInput> uimlTextInputs = FXCollections.observableArrayList();
+    private ObservableList<UimlDropdown> uimlDropdowns = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
     private static DeveloperViewController developerController;
     public static XFormsTransformViewController xFormsTransformViewController;
@@ -59,6 +62,7 @@ public class UimlBuddy extends Application {
     private LabelDialogController labelDialogController;
     private ImageButtonDialogController imageButtonDialogController;
     private TextInputDialogController textInputDialogController;
+    private DropdownDialogController dropdownController;
 
     @Override
     public void start(Stage primaryStage) {
@@ -233,6 +237,15 @@ public class UimlBuddy extends Application {
      */
     public ObservableList<UimlTextInput> getUimlTextInputs() {
         return uimlTextInputs;
+    }
+
+    /**
+     * Returns the Dropdown as an observable.
+     *
+     * @return
+     */
+    public ObservableList<UimlDropdown> getUimlDropdowns() {
+        return uimlDropdowns;
     }
 
     /**
@@ -471,8 +484,38 @@ public class UimlBuddy extends Application {
         }
     }
 
+    public boolean showUimlDropdownDialog(UimlDropdown dropdown) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/DropdownDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("UIML Dropdown Button");
+            dialogStage.getIcons().add(new Image("/assets/ChoiceBox@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the uiml label into the controller
+            this.dropdownController = loader.getController();
+            dropdownController.setDialogStage(dialogStage);
+            dropdownController.setDropdown(dropdown);
+
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+
+            return dropdownController.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
-
 }

@@ -17,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -39,6 +40,7 @@ import uimlbuddy.model.Property;
 import uimlbuddy.model.containers.HorizontalLayout;
 import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.model.controlls.UimlButton;
+import uimlbuddy.model.controlls.UimlDropdown;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.model.controlls.UimlTextInput;
@@ -132,13 +134,6 @@ public class EditorOverviewController implements Initializable {
         if (okClicked) {
             uimlBuddy.getVerticalLayouts().add(vl);
         }
-//        Dialogs.create()
-//                .title("Test")
-//                .masthead("Test")
-//                .message("So insert a Vertical layout?")
-//                .showWarning();
-//        DocumentWriter.initialize();
-//        DocumentWriter.addLayout("VerticalLayout", "vlayout1");
     }
 
     @FXML
@@ -149,13 +144,6 @@ public class EditorOverviewController implements Initializable {
         if (okClicked) {
             uimlBuddy.getHorizontalLayouts().add(hl);
         }
-//        Dialogs.create()
-//                .title("Test")
-//                .masthead("Test")
-//                .message("So insert a Horizontal layout?")
-//                .showWarning();
-//        DocumentWriter.initialize();
-//        DocumentWriter.addLayout("HorizontalLayout", "hlayout1");
     }
 
     /**
@@ -211,6 +199,20 @@ public class EditorOverviewController implements Initializable {
         boolean okClicked = uimlBuddy.showUimlTextInputDialog(uimlTextInput);
         if (okClicked) {
             uimlBuddy.getUimlTextInputs().add(uimlTextInput);
+        }
+    }
+
+    /**
+     * Handles a mouse click event for inserting a Dropdown Button
+     *
+     * @param event
+     */
+    @FXML
+    private void handleDropdownNew(MouseEvent event) {
+        UimlDropdown dropdown = new UimlDropdown();
+        boolean okClicked = uimlBuddy.showUimlDropdownDialog(dropdown);
+        if (okClicked) {
+            uimlBuddy.getUimlDropdowns().add(dropdown);
         }
     }
 
@@ -351,6 +353,15 @@ public class EditorOverviewController implements Initializable {
                 } else if (hbox != null) {
                     hbox.getChildren().add(txtInp);
                 }
+            } else if (part.getClassType().equals("Select")) {
+                System.out.println("Class type Select - dropdown");
+                ComboBox combo = new ComboBox();
+                //applyPropertyOnDropdown(combo, part.getId());
+                if (vbox != null) {
+                    vbox.getChildren().add(combo);
+                } else if (hbox != null) {
+                    hbox.getChildren().add(combo);
+                }
             }
         }
     }
@@ -423,4 +434,24 @@ public class EditorOverviewController implements Initializable {
             }
         }
     }
+    
+//    private void applyPropertyOnDropdown(ComboBox combo, String porpID) {
+//        Constant cons = Helper.getConstant().get(porpID);
+//        if (cons != null) {
+//            combo.
+//        }
+//
+//        List<Property> propLs = Helper.getProperty(porpID);
+//        Iterator<Property> propItr = propLs.iterator();
+//
+//        while (propItr.hasNext()) {
+//            Property property = propItr.next();
+//            String name = property.getPropertyName();
+//            if (name != null && name.equals("label")) {
+//                combo.setText(property.getText());
+//            } else if (name != null && name.equals("style")) {
+//                combo.setStyle(property.getText());
+//            }
+//        }
+//    }
 }
