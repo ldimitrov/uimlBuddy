@@ -12,12 +12,13 @@ import uimlbuddy.model.Part;
 public class VerticalLayout extends Part {
 
     private final StringProperty id;
+    private final StringProperty style;
 
     /**
      * Default constructor.
      */
     public VerticalLayout() {
-        this(null);
+        this(null, null);
     }
 
     /**
@@ -25,8 +26,9 @@ public class VerticalLayout extends Part {
      *
      * @param id
      */
-    public VerticalLayout(String id) {
+    public VerticalLayout(String id, String style) {
         this.id = new SimpleStringProperty(id);
+        this.style = new SimpleStringProperty();
     }
 
     @Override
@@ -37,5 +39,13 @@ public class VerticalLayout extends Part {
     @Override
     public void setId(String id) {
         this.id.set(id);
+    }
+    
+    public String getStyle() {
+        return style.get();
+    }
+    
+    public void setStyle(String style) {
+        this.style.set(style);
     }
 }

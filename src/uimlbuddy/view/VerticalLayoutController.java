@@ -11,7 +11,10 @@ public class VerticalLayoutController {
 
     @FXML // fx:id="idField"
     private TextField idField; // Value injected by FXMLLoader
-
+    
+    @FXML
+    private TextField styleField;
+    
     private Stage dialogStage;
     private VerticalLayout vl;
     private boolean okClicked = false;
@@ -24,6 +27,7 @@ public class VerticalLayoutController {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'VerticalLayout.fxml'.";
+        assert styleField != null : "fx:id=\"styleField\" was not injected: check your FXML file 'VerticalLayout.fxml'.";
     }
     
     /**
@@ -65,6 +69,8 @@ public class VerticalLayoutController {
             vl.setId(idField.getText());
             
             DocumentWriter.addPart("VerticalLayout", idField.getText());
+            // Adding Style
+            DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
             
             // Drawing on Canvas
             DocumentWriter.updateCanvas();

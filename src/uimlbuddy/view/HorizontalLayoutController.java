@@ -12,6 +12,9 @@ public class HorizontalLayoutController {
     @FXML // fx:id="idField"
     private TextField idField; // Value injected by FXMLLoader
 
+    @FXML
+    private TextField styleField;// Value injected by FXMLLoader
+
     private Stage dialogStage;
     private HorizontalLayout hl;
     private boolean okClicked = false;
@@ -20,12 +23,13 @@ public class HorizontalLayoutController {
     public HorizontalLayoutController() {
         dw = new DocumentWriter();
     }
-    
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'VerticalLayout.fxml'.";
+        assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'HorizontalLayout.fxml'.";
+        assert styleField != null : "fx:id=\"styleField\" was not injected: check your FXML file 'HorizontalLayout.fxml'.";
     }
-    
+
     /**
      * Sets the stage of this dialog.
      *
@@ -34,7 +38,7 @@ public class HorizontalLayoutController {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-    
+
     /**
      * Sets the horizontal layout to be edited in the dialog.
      *
@@ -45,7 +49,6 @@ public class HorizontalLayoutController {
 
         idField.setText(hl.getId());
     }
-    
 
     /**
      * Returns true if the user clicked OK, false otherwise.
@@ -55,7 +58,7 @@ public class HorizontalLayoutController {
     public boolean isOkClicked() {
         return okClicked;
     }
-    
+
     /**
      * Called when the user clicks ok.
      */
@@ -63,9 +66,10 @@ public class HorizontalLayoutController {
     void handleOk() {
         if (isInputValid()) {
             hl.setId(idField.getText());
-            
+
             DocumentWriter.addPart("HorizontalLayout", idField.getText());
-            
+            // Adding Style
+            DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
             // Drawing on Canvas
             DocumentWriter.updateCanvas();
             okClicked = true;
