@@ -14,6 +14,7 @@ public class UimlImageButton extends Part {
     private final StringProperty id;    
     private final StringProperty label;
     private final StringProperty source;
+    private final StringProperty style;
     private final StringProperty onClick;
     
     /**
@@ -27,13 +28,13 @@ public class UimlImageButton extends Part {
      * Constructor with some initial data.
      * 
      * @param id
-     * @param label
+     * @param src
      */
-    public UimlImageButton(String id, String label) {
+    public UimlImageButton(String id, String src) {
         this.id = new SimpleStringProperty(id);
-        this.label = new SimpleStringProperty(label);
-        
-        this.source = new SimpleStringProperty();
+        this.label = new SimpleStringProperty();
+        this.style = new SimpleStringProperty();
+        this.source = new SimpleStringProperty(src);
         this.onClick = new SimpleStringProperty();
     }
     
@@ -61,6 +62,14 @@ public class UimlImageButton extends Part {
     
     public void setSource(String style) {
         this.source.set(style);
+    }
+    
+    public String getStyle() {
+        return label.get();
+    }
+    
+    public void setStyle(String style) {
+        this.style.set(style);
     }
     
     public String getOnClick() {

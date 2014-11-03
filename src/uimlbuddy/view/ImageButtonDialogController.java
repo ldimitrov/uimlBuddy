@@ -24,6 +24,9 @@ public class ImageButtonDialogController {
     @FXML // fx:id="sourceField"
     private TextField sourceField;
 
+    @FXML // fx:id="styleField"
+    private TextField styleField;
+
     @FXML // fx:id="browseButton"
     private Button browseButton;
 
@@ -46,7 +49,7 @@ public class ImageButtonDialogController {
         assert labelField != null : "fx:id=\"labelField\" was not injected: check your FXML file 'ImageButtonDialog.fxml'.";
         assert browseButton != null : "fx:id=\"browseButton\" was not injected: check your FXML file 'ImageButtonDialog.fxml'.";
         assert sourceField != null : "fx:id=\"sourceField\" was not injected: check your FXML file 'ImageButtonDialog.fxml'.";
-
+        assert styleField != null : "fx:id=\"styleField\" was not injected: check your FXML file 'ImageButtonDialog.fxml'.";
     }
 
     /**
@@ -68,6 +71,7 @@ public class ImageButtonDialogController {
 
         idField.setText(uimlImageButton.getId());
         labelField.setText(uimlImageButton.getLabel());
+        styleField.setText(uimlImageButton.getStyle());
         sourceField.setText(uimlImageButton.getSource());
         onClickField.setText(uimlImageButton.getOnClick());
     }
@@ -111,17 +115,16 @@ public class ImageButtonDialogController {
         if (isInputValid()) {
             uimlImageButton.setId(idField.getText());
             uimlImageButton.setLabel(labelField.getText());
+            uimlImageButton.setStyle(styleField.getText());
             uimlImageButton.setSource(sourceField.getText());
             uimlImageButton.setOnClick(onClickField.getText());
 
             DocumentWriter.addPart("ImageButton", idField.getText());
             // Adding Label
-            if (labelField.getText().isEmpty()) {
-                System.out.println("No label provided");
-            } else {
-                DocumentWriter.addContentImageButton(idField.getText(), "label", labelField.getText());
-            }
-            // Adding Style
+            DocumentWriter.addContentLabel(idField.getText(), labelField.getText());
+            //Adding Style
+            DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
+            // Adding source to content
             DocumentWriter.addContentImageButton(idField.getText(), "src", sourceField.getText());
             //Adding Behavior
             DocumentWriter.addBehaviour(idField.getText(), "ButtonPressed", onClickField.getText());
