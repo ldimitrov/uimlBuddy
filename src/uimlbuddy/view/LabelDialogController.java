@@ -22,18 +22,18 @@ public class LabelDialogController {
     private UimlLabel uimlLabel;
     private boolean okClicked = false;
     private DocumentWriter dw;
-    
+
     public LabelDialogController() {
         dw = new DocumentWriter();
     }
-    
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'LabelDialog.fxml'.";
         assert styleField != null : "fx:id=\"styleField\" was not injected: check your FXML file 'LabelDialog.fxml'.";
         assert textField != null : "fx:id=\"labelField\" was not injected: check your FXML file 'LabelDialog.fxml'.";
     }
-    
+
     /**
      * Sets the stage of this dialog.
      *
@@ -55,7 +55,7 @@ public class LabelDialogController {
         textField.setText(uimlLabel.getText());
         styleField.setText(uimlLabel.getStyle());
     }
-    
+
     /**
      * Returns true if the user clicked OK, false otherwise.
      *
@@ -64,7 +64,7 @@ public class LabelDialogController {
     public boolean isOkClicked() {
         return okClicked;
     }
-    
+
     /**
      * Called when the user clicks ok.
      */
@@ -77,13 +77,9 @@ public class LabelDialogController {
 
             DocumentWriter.addPart("Label", idField.getText());
             // Adding Label
-            DocumentWriter.addProperty(idField.getText(), "label", textField.getText());
+            DocumentWriter.addContentLabel(idField.getText(), textField.getText());
             // Adding Style
-            if (styleField.getText().isEmpty()) {
-                System.out.println("No style provided");
-            } else {
-                DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
-            }
+            DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
 
             // Drawing on Canvas
             DocumentWriter.updateCanvas();
@@ -99,7 +95,7 @@ public class LabelDialogController {
     private void handleCancel() {
         dialogStage.close();
     }
-    
+
     /**
      * Validates the user input in the text fields.
      *
@@ -115,7 +111,7 @@ public class LabelDialogController {
         if (textField.getText() == null || textField.getText().length() == 0) {
             errorMessage += "Label cannot be empty!\n";
         }
-        
+
         if (errorMessage.length() == 0) {
             return true;
         } else {
@@ -128,5 +124,5 @@ public class LabelDialogController {
             return false;
         }
     }
-    
+
 }

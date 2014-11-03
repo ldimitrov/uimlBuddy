@@ -88,13 +88,9 @@ public class ButtonDialogController implements Initializable {
 
             DocumentWriter.addPart("Button", idField.getText());
             // Adding Label
-            DocumentWriter.addProperty(idField.getText(), "label", labelField.getText());
+            DocumentWriter.addContentLabel(idField.getText(), labelField.getText());
             // Adding Style
-            if (styleField.getText().isEmpty()) {
-                System.out.println("No style provided");
-            } else {
-                DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
-            }
+            DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
             //Adding Behavior
             DocumentWriter.addBehaviour(idField.getText(), "ButtonPressed", onClickField.getText());
 
