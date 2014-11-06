@@ -13,8 +13,8 @@ public class UimlDropdown extends Part {
 
     private final StringProperty id;
     private final StringProperty label;
-//    private final StringProperty optionOne;
-//    private final StringProperty optionTwo;
+    private final StringProperty optionOne;
+    private final StringProperty optionTwo;
     private final StringProperty style;
 
     /**
@@ -29,13 +29,12 @@ public class UimlDropdown extends Part {
      *
      * @param id
      * @param label
-     * @param optionOne
      */
     public UimlDropdown(String id, String label) {
         this.id = new SimpleStringProperty(id);
         this.label = new SimpleStringProperty(label);
-//        this.optionOne = new SimpleStringProperty(optionOne);
-//        this.optionTwo = new SimpleStringProperty();
+        this.optionOne = new SimpleStringProperty();
+        this.optionTwo = new SimpleStringProperty();
         this.style = new SimpleStringProperty();
     }
 
@@ -65,19 +64,19 @@ public class UimlDropdown extends Part {
         this.style.set(style);
     }
 
-//    public String getOptionOne() {
-//        return optionOne.get();
-//    }
-//
-//    public void setOptionOne(String optionOne) {
-//        this.optionOne.set(optionOne);
-//    }
-//
-//    public String getOptionTwo() {
-//        return optionTwo.get();
-//    }
-//
-//    public void setOptioTwo(String optionTwo) {
-//        this.optionTwo.set(optionTwo);
-//    }
+    public String getOptionOne() {
+        return optionOne.get();
+    }
+
+    public void setOptionOne(String optionOne) {
+        this.optionOne.set(optionOne);
+    }
+
+    public String getOptionTwo() {
+        return optionTwo.get();
+    }
+
+    public void setOptioTwo(String optionTwo) {
+        this.optionTwo.set(optionTwo);
+    }
 }

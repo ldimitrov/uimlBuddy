@@ -356,7 +356,7 @@ public class EditorOverviewController implements Initializable {
             } else if (part.getClassType().equals("Select")) {
                 System.out.println("Class type Select - dropdown");
                 ComboBox combo = new ComboBox();
-                //applyPropertyOnDropdown(combo, part.getId());
+                applyPropertyOnDropdown(combo, part.getId());
                 if (vbox != null) {
                     vbox.getChildren().add(combo);
                 } else if (hbox != null) {
@@ -435,23 +435,13 @@ public class EditorOverviewController implements Initializable {
         }
     }
     
-//    private void applyPropertyOnDropdown(ComboBox combo, String porpID) {
-//        Constant cons = Helper.getConstant().get(porpID);
-//        if (cons != null) {
-//            combo.
-//        }
-//
-//        List<Property> propLs = Helper.getProperty(porpID);
-//        Iterator<Property> propItr = propLs.iterator();
-//
-//        while (propItr.hasNext()) {
-//            Property property = propItr.next();
-//            String name = property.getPropertyName();
-//            if (name != null && name.equals("label")) {
-//                combo.setText(property.getText());
-//            } else if (name != null && name.equals("style")) {
-//                combo.setStyle(property.getText());
-//            }
-//        }
-//    }
+    private void applyPropertyOnDropdown(ComboBox combo, String porpID) {
+        Constant cons = Helper.getConstant().get(porpID);
+        if (cons != null) {
+            combo.getItems().addAll("Option", "Option");
+        }
+
+        List<Property> propLs = Helper.getProperty(porpID);
+        Iterator<Property> propItr = propLs.iterator();
+    }
 }

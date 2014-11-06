@@ -12,11 +12,11 @@ public class DropdownDialogController {
     @FXML // fx:id="idField"
     private TextField idField;
 
-//    @FXML // fx:id="firstOptionField"
-//    private TextField firstOptionField;
-//    
-//     @FXML // fx:id="secondOptionField"
-//    private TextField secondOptionField;
+    @FXML // fx:id="firstOptionField"
+    private TextField firstOptionField;
+
+    @FXML // fx:id="secondOptionField"
+    private TextField secondOptionField;
 
     @FXML // fx:id="styleField"
     private TextField styleField;
@@ -36,11 +36,10 @@ public class DropdownDialogController {
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'DropdownDialog.fxml'.";
-//        assert firstOptionField != null : "fx:id=\"firstOptionField\" was not injected: check your FXML file 'DropdownDialog.fxml'.";
-//        assert secondOptionField != null : "fx:id=\"secondOptionField\" was not injected: check your FXML file 'DropdownDialog.fxml'.";
+        assert firstOptionField != null : "fx:id=\"firstOptionField\" was not injected: check your FXML file 'DropdownDialog.fxml'.";
+        assert secondOptionField != null : "fx:id=\"secondOptionField\" was not injected: check your FXML file 'DropdownDialog.fxml'.";
         assert styleField != null : "fx:id=\"styleField\" was not injected: check your FXML file 'DropdownDialog.fxml'.";
         assert labelField != null : "fx:id=\"labelField\" was not injected: check your FXML file 'DropdownDialog.fxml'.";
-
     }
 
     /**
@@ -51,7 +50,7 @@ public class DropdownDialogController {
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-    
+
     /**
      * Sets the button to be edited in the dialog.
      *
@@ -63,8 +62,10 @@ public class DropdownDialogController {
         idField.setText(dropdown.getId());
         labelField.setText(dropdown.getLabel());
         styleField.setText(dropdown.getStyle());
+        firstOptionField.setText(dropdown.getOptionOne());
+        secondOptionField.setText(dropdown.getOptionTwo());
     }
-    
+
     /**
      * Returns true if the user clicked OK, false otherwise.
      *
@@ -72,7 +73,7 @@ public class DropdownDialogController {
      */
     public boolean isOkClicked() {
         return okClicked;
-    }    
+    }
 
     /**
      * Called when the user clicks ok.
@@ -83,17 +84,18 @@ public class DropdownDialogController {
             dropdown.setId(idField.getText());
             dropdown.setLabel(labelField.getText());
             dropdown.setStyle(styleField.getText());
-            //dropdown.setOptionOne(firstOptionField.getText());
-            //dropdown.setOptioTwo(secondOptionField.getText());
+            dropdown.setOptionOne(firstOptionField.getText());
+            dropdown.setOptioTwo(secondOptionField.getText());
 
-            DocumentWriter.addPart("Select", idField.getText());
+            DocumentWriter.addComplexPart("Select", idField.getText());
+            //DocumentWriter.addPart("Select", idField.getText());
+            DocumentWriter.addContentDropDownOptions("opt1", firstOptionField.getText());
+            DocumentWriter.addContentDropDownOptions("opt2", secondOptionField.getText());
             // Adding Label
             DocumentWriter.addContentLabel(idField.getText(), labelField.getText());
             // Adding Style
             DocumentWriter.addProperty(idField.getText(), "style", styleField.getText());
-   
-            //DocumentWriter.addPart("Option", firstOptionField.getText());
-            //DocumentWriter.addPart("Option", secondOptionField.getText());
+
             // Drawing on Canvas
             DocumentWriter.updateCanvas();
             okClicked = true;
@@ -124,7 +126,6 @@ public class DropdownDialogController {
         if (labelField.getText() == null || labelField.getText().length() == 0) {
             errorMessage += "Not a valid label!\n";
         }
-        
 
         if (errorMessage.length() == 0) {
             return true;

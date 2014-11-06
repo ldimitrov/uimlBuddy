@@ -59,6 +59,44 @@ public class DocumentWriter {
 
         partNode.addContent(part);
     }
+    
+    public static void addComplexPart(String classType, String id) {
+        Element root = document.getRootElement(); //uiml tag
+        Element interfaceNode = root.getChild("interface"); //interface tag
+        Element structureNode = interfaceNode.getChild("structure");
+        Element partNode = null;
+        if (DocumentReader.domDocument == null) {
+            partNode = structureNode.getChild("part");
+        } else {
+            List<Element> lsp = structureNode.getChildren("part");
+            for (Element element : lsp) {
+                String str = element.getAttribute("class").getValue();
+                if (str.equalsIgnoreCase("VerticalLayout") || str.equalsIgnoreCase("HorizontalLayout")) {
+                    partNode = element;
+                    break;
+                }
+            }
+            if (partNode == null) {
+                partNode = structureNode;
+            }
+        }
+        Element part = new Element("part");
+        part.setAttribute("id", id);
+        part.setAttribute("class", classType);
+        
+        Element firstOption = new Element("part");
+        firstOption.setAttribute("id", "opt1");
+        firstOption.setAttribute("class", "Option");
+        
+        Element secondOption = new Element("part");
+        secondOption.setAttribute("id", "opt2");
+        secondOption.setAttribute("class", "Option");
+        
+        part.addContent(firstOption);
+        part.addContent(secondOption);
+
+        partNode.addContent(part);
+    }
 
     public static void addProperty(String partName, String name, String text) {
         Element root = document.getRootElement(); //uiml tag
@@ -107,6 +145,17 @@ public class DocumentWriter {
         Element constantNode = new Element("constant");
         constantNode.setAttribute("id", id);
         constantNode.setAttribute("label", label);
+        contentNode.addContent(constantNode);
+    }
+    
+    public static void addContentDropDownOptions(String id, String label) {
+        Element root = document.getRootElement(); //uiml tag
+        Element interfaceNode = root.getChild("interface"); //interface tag
+        Element contentNode = interfaceNode.getChild("content");
+        Element constantNode = new Element("constant");
+        constantNode.setAttribute("id", id);
+        constantNode.setAttribute("label", label);
+        constantNode.setAttribute("value", label.toLowerCase());
         contentNode.addContent(constantNode);
     }
 
