@@ -462,8 +462,8 @@ public class EditorOverviewController implements Initializable {
             combo.getItems().addAll("Option", "Option");
         }
 
-        List<Property> propLs = Helper.getProperty(porpID);
-        Iterator<Property> propItr = propLs.iterator();
+//        List<Property> propLs = Helper.getProperty(porpID);
+//        Iterator<Property> propItr = propLs.iterator();
     }
 
     private void highlightComponent(VBox vb, HBox hb) {
