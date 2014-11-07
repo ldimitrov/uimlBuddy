@@ -36,7 +36,7 @@
                   <Insets right="70.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="browseButton" mnemonicParsing="false" text="Browse..." GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button fx:id="browseButton" mnemonicParsing="false" onAction="#onBrowseClick" text="Browse..." GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="192.0" />
                </GridPane.margin>
