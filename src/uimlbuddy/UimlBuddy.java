@@ -537,8 +537,8 @@ public class UimlBuddy extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("UIML Dropdown Button");
-            dialogStage.getIcons().add(new Image("/assets/ImageView@2x.png"));
+            dialogStage.setTitle("UIML Image");
+            dialogStage.getIcons().add(new Image("/assets/TilePane@2x.png"));
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);

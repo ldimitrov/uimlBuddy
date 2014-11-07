@@ -420,7 +420,7 @@ public class EditorOverviewController implements Initializable {
                 }
             } else if (part.getClassType().equals("Image")) {
                 System.out.println("Class type Image");
-                Image img = new Image("/assets/ImageView@2x.png");
+                Image img = new Image("/assets/TilePane@2x.png");
                 // Calling method for applying property
                 Canvas canvas = new Canvas(50, 50);
                 GraphicsContext gc = canvas.getGraphicsContext2D();
