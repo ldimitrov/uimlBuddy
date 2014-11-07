@@ -21,6 +21,7 @@ import uimlbuddy.model.containers.HorizontalLayout;
 import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.model.controlls.UimlButton;
 import uimlbuddy.model.controlls.UimlDropdown;
+import uimlbuddy.model.controlls.UimlImage;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.model.controlls.UimlTextInput;
@@ -30,6 +31,7 @@ import uimlbuddy.view.DropdownDialogController;
 import uimlbuddy.view.EditorOverviewController;
 import uimlbuddy.view.HorizontalLayoutController;
 import uimlbuddy.view.ImageButtonDialogController;
+import uimlbuddy.view.ImageDialogController;
 import uimlbuddy.view.LabelDialogController;
 import uimlbuddy.view.RootLayoutController;
 import uimlbuddy.view.TextInputDialogController;
@@ -52,6 +54,7 @@ public class UimlBuddy extends Application {
     private ObservableList<UimlImageButton> uimlImageButtons = FXCollections.observableArrayList();
     private ObservableList<UimlTextInput> uimlTextInputs = FXCollections.observableArrayList();
     private ObservableList<UimlDropdown> uimlDropdowns = FXCollections.observableArrayList();
+    private ObservableList<UimlImage> uimlImages = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
     private static DeveloperViewController developerController;
     public static XFormsTransformViewController xFormsTransformViewController;
@@ -63,6 +66,7 @@ public class UimlBuddy extends Application {
     private ImageButtonDialogController imageButtonDialogController;
     private TextInputDialogController textInputDialogController;
     private DropdownDialogController dropdownController;
+    private ImageDialogController imageController;
 
     @Override
     public void start(Stage primaryStage) {
@@ -246,6 +250,15 @@ public class UimlBuddy extends Application {
      */
     public ObservableList<UimlDropdown> getUimlDropdowns() {
         return uimlDropdowns;
+    }
+    
+    /**
+     * Returns the Image as an observable.
+     *
+     * @return
+     */
+    public ObservableList<UimlImage> getUimlImages() {
+        return uimlImages;
     }
 
     /**
@@ -509,6 +522,37 @@ public class UimlBuddy extends Application {
             dialogStage.showAndWait();
 
             return dropdownController.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean showImageDialog(UimlImage image) {
+        try {
+            // Load the FXML file and create a new stage for the popup dialog
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(UimlBuddy.class.getResource("view/ImageDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("UIML Dropdown Button");
+            dialogStage.getIcons().add(new Image("/assets/ImageView@2x.png"));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the uiml label into the controller
+            this.imageController = loader.getController();
+            imageController.setDialogStage(dialogStage);
+            imageController.setImage(image);
+
+            // Show the dialog and wait until user closes it.
+            dialogStage.showAndWait();
+
+            return imageController.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();
             return false;

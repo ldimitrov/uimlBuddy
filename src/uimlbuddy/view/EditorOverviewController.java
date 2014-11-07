@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -42,6 +41,7 @@ import uimlbuddy.model.containers.HorizontalLayout;
 import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.model.controlls.UimlButton;
 import uimlbuddy.model.controlls.UimlDropdown;
+import uimlbuddy.model.controlls.UimlImage;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.model.controlls.UimlTextInput;
@@ -231,6 +231,41 @@ public class EditorOverviewController implements Initializable {
     }
 
     /**
+     * Handles a mouse click event for inserting a new Image control
+     *
+     * @param event
+     */
+    @FXML
+    void handleImageNew(MouseEvent event) {
+        DocumentWriter.initialize();
+        UimlImage image = new UimlImage();
+        boolean okClicked = uimlBuddy.showImageDialog(image);
+        if (okClicked) {
+            uimlBuddy.getUimlImages().add(image);
+        }
+    }
+
+    /**
+     * Handles a mouse click event for inserting a HTML <div/> element
+     *
+     * @param event
+     */
+    @FXML
+    void handleDivNew(MouseEvent event) {
+
+    }
+
+    /**
+     * Handles a mouse click event for inserting a HTML <span/> element
+     *
+     * @param event
+     */
+    @FXML
+    void handleSpanNew(MouseEvent event) {
+
+    }
+
+    /**
      * Handle parsing of uiml document and initialize initial values
      *
      * @param document
@@ -383,6 +418,18 @@ public class EditorOverviewController implements Initializable {
                 } else if (hbox != null) {
                     hbox.getChildren().add(combo);
                 }
+            } else if (part.getClassType().equals("Image")) {
+                System.out.println("Class type Image");
+                Image img = new Image("/assets/ImageView@2x.png");
+                // Calling method for applying property
+                Canvas canvas = new Canvas(50, 50);
+                GraphicsContext gc = canvas.getGraphicsContext2D();
+                gc.drawImage(img, 0, 0);
+                if (vbox != null) {
+                    vbox.getChildren().add(canvas);
+                } else if (hbox != null) {
+                    hbox.getChildren().add(canvas);
+                }
             }
         }
     }
@@ -482,7 +529,7 @@ public class EditorOverviewController implements Initializable {
                 if (selectedHbox != null) {
                     selectedHbox.setBorder(borderBlack);
                 }
-                
+
                 Object obj = event.getPickResult().getIntersectedNode();
                 if (obj instanceof VBox) {
                     selectedVbox = (VBox) event.getPickResult().getIntersectedNode();

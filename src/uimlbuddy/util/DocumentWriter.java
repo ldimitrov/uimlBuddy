@@ -177,6 +177,26 @@ public class DocumentWriter {
         constantNode.setAttribute("label", label);
         contentNode.addContent(constantNode);
     }
+    
+    public static void addContentSource(String id, String source) {
+        Element root = document.getRootElement(); //uiml tag
+        Element interfaceNode = root.getChild("interface"); //interface tag
+        Element contentNode = interfaceNode.getChild("content");
+        Element constantNode = new Element("constant");
+        constantNode.setAttribute("id", id);
+        constantNode.setAttribute("src", source);
+        contentNode.addContent(constantNode);
+    }
+    
+    public static void addContentAlternative(String id, String alt) {
+        Element root = document.getRootElement(); //uiml tag
+        Element interfaceNode = root.getChild("interface"); //interface tag
+        Element contentNode = interfaceNode.getChild("content");
+        Element constantNode = new Element("constant");
+        constantNode.setAttribute("id", id);
+        constantNode.setAttribute("alt", alt);
+        contentNode.addContent(constantNode);
+    }
 
     public static void addContentDropDownOptions(String id, String label) {
         Element root = document.getRootElement(); //uiml tag
