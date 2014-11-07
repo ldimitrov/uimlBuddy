@@ -22,7 +22,7 @@ import uimlbuddy.model.Style;
 /**
  * Read UIML file into object model
  *
- * @author Kundan
+ * @author Lyuben
  *
  */
 public class DocumentReader {

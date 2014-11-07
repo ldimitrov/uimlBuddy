@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -66,6 +67,9 @@ public class EditorOverviewController implements Initializable {
     private VBox stVbox;
     private HBox stHbox;
 
+    public static VBox selectedVbox;
+    public static HBox selectedHbox;
+
     /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
@@ -111,6 +115,11 @@ public class EditorOverviewController implements Initializable {
         try {
             sourceEditor.setText(sb.toString());
             sourceEditor.setWrapText(true);
+
+            // Setting static layout to null
+            selectedHbox = null;
+            selectedVbox = null;
+
             // Parsing file and loading into memory
             Document doc = DocumentReader.Parser(file, null);
             // Calling method for draw the component on canvas
@@ -153,6 +162,7 @@ public class EditorOverviewController implements Initializable {
      */
     @FXML
     private void handleButtonNew(MouseEvent event) {
+        DocumentWriter.initialize();
         UimlButton uimlButton = new UimlButton();
         boolean okClicked = uimlBuddy.showUimlButtonDialog(uimlButton);
         if (okClicked) {
@@ -167,6 +177,7 @@ public class EditorOverviewController implements Initializable {
      */
     @FXML
     private void handleImageButtonNew(MouseEvent event) {
+        DocumentWriter.initialize();
         UimlImageButton uimlImageButton = new UimlImageButton();
         boolean okClicked = uimlBuddy.showUimlImageButtonDialog(uimlImageButton);
         if (okClicked) {
@@ -181,6 +192,7 @@ public class EditorOverviewController implements Initializable {
      */
     @FXML
     private void handleLabelNew(MouseEvent event) {
+        DocumentWriter.initialize();
         UimlLabel uimlLabel = new UimlLabel();
         boolean okClicked = uimlBuddy.showUimlLabelDialog(uimlLabel);
         if (okClicked) {
@@ -195,6 +207,7 @@ public class EditorOverviewController implements Initializable {
      */
     @FXML
     private void handleTextInputNew(MouseEvent event) {
+        DocumentWriter.initialize();
         UimlTextInput uimlTextInput = new UimlTextInput();
         boolean okClicked = uimlBuddy.showUimlTextInputDialog(uimlTextInput);
         if (okClicked) {
@@ -209,6 +222,7 @@ public class EditorOverviewController implements Initializable {
      */
     @FXML
     private void handleDropdownNew(MouseEvent event) {
+        DocumentWriter.initialize();
         UimlDropdown dropdown = new UimlDropdown();
         boolean okClicked = uimlBuddy.showUimlDropdownDialog(dropdown);
         if (okClicked) {
@@ -258,7 +272,7 @@ public class EditorOverviewController implements Initializable {
             }
             System.out.println("part size " + p.getChildParts().size() + "  part id " + p.getId());
             if (p.getChildParts().size() > 0) {
-                drawControls(p.getChildParts().iterator(), vbox, hbox, 0);
+                drawControls(p.getChildParts().iterator(), vbox, hbox, 0, p.getId());
             }
         }
         System.out.println("Control drawing completed");
@@ -274,18 +288,20 @@ public class EditorOverviewController implements Initializable {
      * @param hbox
      * @param i
      */
-    private void drawControls(Iterator<Part> itr, VBox vbox, HBox hbox, int i) {
+    private void drawControls(Iterator<Part> itr, VBox vbox, HBox hbox, int i, String id) {
         Border border = new Border(new BorderStroke(Paint.valueOf("Black"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
         if (vbox != null && i == 0) {
             vbox.setPadding(new Insets(10));
             vbox.setSpacing(8);
             vbox.setBorder(border);
+            vbox.setId(id);
             stVbox = vbox;
             canvasEditor.getChildren().add(stVbox);
         } else if (hbox != null && i == 0) {
             hbox.setPadding(new Insets(15, 12, 15, 12));
             hbox.setSpacing(10);
             hbox.setBorder(border);
+            hbox.setId(id);
             stHbox = hbox;
             canvasEditor.getChildren().add(stHbox);
         } else {
@@ -293,22 +309,27 @@ public class EditorOverviewController implements Initializable {
                 vbox.setPadding(new Insets(10));
                 vbox.setSpacing(8);
                 vbox.setBorder(border);
+                vbox.setId(id);
                 stVbox.getChildren().add(vbox);
             } else if (hbox != null) {
                 hbox.setPadding(new Insets(15, 12, 15, 12));
                 hbox.setSpacing(10);
                 hbox.setBorder(border);
+                hbox.setId(id);
                 stVbox.getChildren().add(hbox);
             }
         }
+
+        // Highlighting selected container and adding component inside selected layout
+        highlightComponent(vbox, hbox);
         // Looping over Parrent Conatainer which contains Layouts
         while (itr.hasNext()) {
             Part part = itr.next();
             System.out.println("--- " + part.getClassType() + "   ** " + part.getId());
             if (part.getClassType().equals("VerticalLayout")) {
-                drawControls(part.getChildParts().iterator(), new VBox(), null, 1);
+                drawControls(part.getChildParts().iterator(), new VBox(), null, 1, part.getId());
             } else if (part.getClassType().equals("HorizontalLayout")) {
-                drawControls(part.getChildParts().iterator(), null, new HBox(), 1);
+                drawControls(part.getChildParts().iterator(), null, new HBox(), 1, part.getId());
             } else if (part.getClassType().equals("Button")) {
                 System.out.println("Class Type Button");
                 Button btn = new Button();
@@ -434,7 +455,7 @@ public class EditorOverviewController implements Initializable {
             }
         }
     }
-    
+
     private void applyPropertyOnDropdown(ComboBox combo, String porpID) {
         Constant cons = Helper.getConstant().get(porpID);
         if (cons != null) {
@@ -443,5 +464,62 @@ public class EditorOverviewController implements Initializable {
 
         List<Property> propLs = Helper.getProperty(porpID);
         Iterator<Property> propItr = propLs.iterator();
+    }
+
+    private void highlightComponent(VBox vb, HBox hb) {
+        if (vb != null) {
+
+            vb.setOnMousePressed((MouseEvent event) -> {
+                System.out.println("mouse click detected in vb " + event.getSource());
+                // Border red when layout selected
+                Border bord = new Border(new BorderStroke(Paint.valueOf("Red"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
+                // When other node is selected
+                Border borderBlack = new Border(new BorderStroke(Paint.valueOf("Black"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
+                System.out.println("Pickresult ---------- " + event.getPickResult() + "  \n-  node" + event.getPickResult().getIntersectedNode());
+                if (selectedVbox != null) {
+                    selectedVbox.setBorder(borderBlack);
+                }
+                if (selectedHbox != null) {
+                    selectedHbox.setBorder(borderBlack);
+                }
+                
+                Object obj = event.getPickResult().getIntersectedNode();
+                if (obj instanceof VBox) {
+                    selectedVbox = (VBox) event.getPickResult().getIntersectedNode();
+                    selectedVbox.setBorder(bord);
+                    selectedHbox = null;
+                } else {
+                    selectedHbox = (HBox) event.getPickResult().getIntersectedNode();
+                    selectedHbox.setBorder(bord);
+                    selectedVbox = null;
+                }
+            });
+        }
+
+        if (hb != null) {
+            hb.setOnMousePressed((MouseEvent event) -> {
+                System.out.println("Event Pick result " + event.getPickResult());
+                // Border red when layout selected
+                Border bord = new Border(new BorderStroke(Paint.valueOf("Red"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
+                // When other node is selected
+                Border borderBlack = new Border(new BorderStroke(Paint.valueOf("Black"), BorderStrokeStyle.SOLID, new CornerRadii(2), BorderWidths.DEFAULT));
+                Object obj = event.getPickResult().getIntersectedNode();
+                if (selectedVbox != null) {
+                    selectedVbox.setBorder(borderBlack);
+                }
+                if (selectedHbox != null) {
+                    selectedHbox.setBorder(borderBlack);
+                }
+                if (obj instanceof VBox) {
+                    selectedVbox = (VBox) event.getPickResult().getIntersectedNode();
+                    selectedVbox.setBorder(bord);
+                    selectedHbox = null;
+                } else {
+                    selectedHbox = (HBox) event.getPickResult().getIntersectedNode();
+                    selectedHbox.setBorder(bord);
+                    selectedVbox = null;
+                }
+            });
+        }
     }
 }

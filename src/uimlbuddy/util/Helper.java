@@ -9,12 +9,12 @@ import uimlbuddy.model.Property;
 
 /**
  *
- * @author Kundan
+ * @author Luben
  */
 public class Helper {
 
-    private static List<Property> property = new ArrayList<Property>();
-    private static HashMap<String, Constant> constant = new HashMap<String, Constant>();
+    private static List<Property> property = new ArrayList<>();
+    private static HashMap<String, Constant> constant = new HashMap<>();
 
     public static void storePropety(ArrayList<Property> alist) {
         property = alist;
@@ -23,8 +23,7 @@ public class Helper {
 
     public static void convertConstantListToMap(ArrayList<Constant> alist) {
         System.out.println("cons################ size " + alist.size());
-        for (int i = 0; i < alist.size(); i++) {
-            Constant cons = alist.get(i);
+        for (Constant cons : alist) {
             constant.put(cons.getId(), cons);
         }
     }

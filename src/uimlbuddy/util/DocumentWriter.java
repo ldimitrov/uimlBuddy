@@ -8,10 +8,10 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-
+import uimlbuddy.view.EditorOverviewController;
 /**
  *
- * @author Kundan
+ * @author Lyuben
  */
 public class DocumentWriter {
 
@@ -34,6 +34,14 @@ public class DocumentWriter {
 
     public static void addPart(String classType, String id) {
 
+        String parentId = null;
+        if (EditorOverviewController.selectedHbox != null) {
+            parentId = EditorOverviewController.selectedHbox.getId();
+        }
+        if (EditorOverviewController.selectedVbox != null) {
+            parentId = EditorOverviewController.selectedVbox.getId();
+        }
+        
         Element root = document.getRootElement(); //uiml tag
         Element interfaceNode = root.getChild("interface"); //interface tag
         Element structureNode = interfaceNode.getChild("structure");
@@ -42,13 +50,20 @@ public class DocumentWriter {
             partNode = structureNode.getChild("part");
         } else {
             List<Element> lsp = structureNode.getChildren("part");
-            for (Element element : lsp) {
-                String str = element.getAttribute("class").getValue();
-                if (str.equalsIgnoreCase("VerticalLayout") || str.equalsIgnoreCase("HorizontalLayout")) {
-                    partNode = element;
-                    break;
+            if (parentId == null) {
+                for (Element element : lsp) {
+                    String str = element.getAttribute("class").getValue();
+
+                    if (str.equalsIgnoreCase("VerticalLayout") || str.equalsIgnoreCase("HorizontalLayout")) {
+                        partNode = element;
+                        break;
+                    }
                 }
+            } else {
+                // If layout is selected and user want to add control inside that
+                partNode = findElementByID(lsp, parentId);
             }
+
             if (partNode == null) {
                 partNode = structureNode;
             }
@@ -189,6 +204,23 @@ public class DocumentWriter {
         } catch (JDOMException | IOException ex) {
             ex.printStackTrace();
         }
+    }
+    
+    private static Element findElementByID(List<Element> lsp, String id) {
+        Element ele = null;
+        for (Element element : lsp) {
+            String str = element.getAttribute("id").getValue();
+            if (str != null && str.equals(id)) {
+                System.out.println("Match found---------------------------- " + str + "   =====  " + id);
+                ele = element;
+                break;
+            } else {
+                if (element.getChildren() != null) {
+                    ele = findElementByID(element.getChildren(), id);
+                }
+            }
+        }
+        return ele;
     }
 
 }
