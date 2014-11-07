@@ -1,8 +1,10 @@
 package uimlbuddy.view;
 
+import java.io.File;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.controlls.UimlImage;
@@ -29,6 +31,9 @@ public class ImageDialogController {
     private UimlImage uimlImage;
     private boolean okClicked = false;
     private DocumentWriter dw;
+    private File file;
+    private FileChooser fileChooser;
+    private FileChooser.ExtensionFilter extFilterAll;
 
     public ImageDialogController() {
         dw = new DocumentWriter();
@@ -67,7 +72,24 @@ public class ImageDialogController {
     
     @FXML
     void onBrowseClick() {
+        fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        extFilterAll = new FileChooser.ExtensionFilter("All Files", "*.*");
 
+        fileChooser.getExtensionFilters().addAll(
+                extFilterAll,
+                new FileChooser.ExtensionFilter("JPG (*.jpg)", "*.jpg"),
+                new FileChooser.ExtensionFilter("JPEG (*.jpeg)", "*.jpeg"),
+                new FileChooser.ExtensionFilter("PNG (*.png)", "*.png"),
+                new FileChooser.ExtensionFilter("GIF (*.gif)", "*.gif")
+        );
+
+        file = fileChooser.showOpenDialog(dialogStage.getScene().getWindow());
+
+        if (file != null) {
+            System.out.println("Image path" + file.getAbsolutePath());
+            sourceField.setText(file.getAbsolutePath());
+        }
     }
 
     /**
