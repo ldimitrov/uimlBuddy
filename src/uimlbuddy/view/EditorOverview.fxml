@@ -20,7 +20,7 @@
                <children>
                   <Accordion fx:id="accordion" layoutX="-41.0" layoutY="79.0" prefHeight="398.0" prefWidth="175.0" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <panes>
-                      <TitledPane fx:id="accContainers" animated="false" expanded="false" text="Containers">
+                      <TitledPane fx:id="accContainers" animated="false" expanded="false" text="Layouts">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
@@ -55,7 +55,7 @@
                               </AnchorPane>
                         </content>
                       </TitledPane>
-                      <TitledPane fx:id="accControlls" animated="false" expanded="false" text="Controlls">
+                      <TitledPane fx:id="accControlls" animated="false" expanded="false" text="Controls">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
