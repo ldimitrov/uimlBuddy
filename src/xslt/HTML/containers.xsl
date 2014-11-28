@@ -53,6 +53,7 @@
     <!-- UI - Horizontal Layout turns into a HTML span tag enclosed with a div -<div> <span/> </div>  -->
     <xsl:template match="part[@class='HorizontalLayout']">       
         <div>
+            <xsl:apply-templates/>
             <xsl:choose>
                 <xsl:when test="key('divStyles', @id) != ''">
                     <xsl:attribute name="class">
