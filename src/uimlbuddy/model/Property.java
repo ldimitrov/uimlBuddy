@@ -2,7 +2,7 @@ package uimlbuddy.model;
 
 /**
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class Property {
     private String id;

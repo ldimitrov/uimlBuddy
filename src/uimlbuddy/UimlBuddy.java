@@ -39,8 +39,9 @@ import uimlbuddy.view.VerticalLayoutController;
 import uimlbuddy.view.XFormsTransformViewController;
 
 /**
- *
- * @author Lyuben
+ * Main class
+ * 
+ * @author Lyuben Dimitrov
  */
 public class UimlBuddy extends Application {
 

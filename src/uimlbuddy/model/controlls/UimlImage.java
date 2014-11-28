@@ -7,7 +7,7 @@ import uimlbuddy.model.Part;
 /**
  * Model class for a UIML Image
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class UimlImage extends Part {
 

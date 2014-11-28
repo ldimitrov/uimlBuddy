@@ -50,9 +50,9 @@ import uimlbuddy.util.DocumentWriter;
 import uimlbuddy.util.Helper;
 
 /**
- * FXML Controller class
+ * FXML Controller class for the editing panel
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class EditorOverviewController implements Initializable {
 

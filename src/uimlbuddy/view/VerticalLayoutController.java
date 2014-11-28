@@ -7,6 +7,12 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.containers.VerticalLayout;
 import uimlbuddy.util.DocumentWriter;
 
+/**
+ * FXML Controller class for VBox's View
+ *
+ * @author Lyuben Dimitrov
+ */
+
 public class VerticalLayoutController {
 
     @FXML // fx:id="idField"

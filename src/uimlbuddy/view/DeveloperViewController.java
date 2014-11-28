@@ -31,7 +31,7 @@ import uimlbuddy.UimlBuddy;
 /**
  * FXML Controller class for Developer's View
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class DeveloperViewController implements Initializable {
 

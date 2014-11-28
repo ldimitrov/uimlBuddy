@@ -10,6 +10,12 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.controlls.UimlImage;
 import uimlbuddy.util.DocumentWriter;
 
+/**
+ * FXML Controller class for ImageDialog's View
+ *
+ * @author Lyuben Dimitrov
+ */
+
 public class ImageDialogController {
 
     @FXML // fx:id="sourceField"

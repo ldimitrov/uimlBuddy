@@ -6,7 +6,7 @@ import javafx.beans.property.StringProperty;
 
 /**
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class Part {
 

@@ -7,6 +7,12 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.containers.HorizontalLayout;
 import uimlbuddy.util.DocumentWriter;
 
+/**
+ * FXML Controller class for HBox's View
+ *
+ * @author Lyuben Dimitrov
+ */
+
 public class HorizontalLayoutController {
 
     @FXML // fx:id="idField"

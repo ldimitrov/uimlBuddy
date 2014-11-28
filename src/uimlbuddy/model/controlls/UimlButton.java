@@ -7,7 +7,7 @@ import uimlbuddy.model.Part;
 /**
  * Model class for a UIML Button
  * 
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class UimlButton extends Part {
     

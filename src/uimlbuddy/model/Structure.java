@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class Structure {
     private ArrayList parts = new ArrayList();

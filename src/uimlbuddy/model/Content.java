@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Model 
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class Content {
 

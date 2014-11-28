@@ -7,6 +7,12 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.controlls.UimlTextInput;
 import uimlbuddy.util.DocumentWriter;
 
+/**
+ * FXML Controller class for TextInput's View
+ *
+ * @author Lyuben Dimitrov
+ */
+
 public class TextInputDialogController {
     
     @FXML // fx:id="idField"

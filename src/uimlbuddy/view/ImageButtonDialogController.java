@@ -10,6 +10,12 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.controlls.UimlImageButton;
 import uimlbuddy.util.DocumentWriter;
 
+/**
+ * FXML Controller class for ImageButton View
+ *
+ * @author Lyuben Dimitrov
+ */
+
 public class ImageButtonDialogController {
 
     @FXML // fx:id="idField"

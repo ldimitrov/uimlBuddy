@@ -3,7 +3,7 @@ package uimlbuddy.model;
 /**
  * Interface contains the main parts of the UIML Document
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class Interface {
 

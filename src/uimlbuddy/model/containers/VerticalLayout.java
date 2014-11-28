@@ -7,7 +7,7 @@ import uimlbuddy.model.Part;
 /**
  * Model class for a Vertical Layout
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class VerticalLayout extends Part {
 

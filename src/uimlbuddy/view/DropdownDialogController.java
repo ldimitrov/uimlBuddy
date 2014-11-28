@@ -7,6 +7,12 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.controlls.UimlDropdown;
 import uimlbuddy.util.DocumentWriter;
 
+/**
+ * FXML Controller class for Dropdown's View
+ *
+ * @author Lyuben Dimitrov
+ */
+
 public class DropdownDialogController {
 
     @FXML // fx:id="idField"

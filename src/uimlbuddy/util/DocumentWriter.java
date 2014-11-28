@@ -12,7 +12,7 @@ import uimlbuddy.view.EditorOverviewController;
 
 /**
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class DocumentWriter {
 

@@ -7,7 +7,7 @@ import uimlbuddy.model.Part;
 /**
  * Model class for a UIML Drop Down Button
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class UimlDropdown extends Part {
 

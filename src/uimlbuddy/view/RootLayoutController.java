@@ -34,9 +34,9 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.UimlBuddy;
 
 /**
- * FXML Controller class
+ * FXML Controller class for main window
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class RootLayoutController implements Initializable, Observer {
 

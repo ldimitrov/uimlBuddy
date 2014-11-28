@@ -13,7 +13,7 @@ import uimlbuddy.util.DocumentWriter;
 /**
  * Dialog to create/edit UIML buttons
  *
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class ButtonDialogController implements Initializable {
 

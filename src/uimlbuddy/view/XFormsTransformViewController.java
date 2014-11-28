@@ -7,6 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import uimlbuddy.UimlBuddy;
+/**
+ * FXML Controller class for Transformations process and window
+ *
+ * @author Lyuben Dimitrov
+ */
 
 public class XFormsTransformViewController extends AnchorPane {
 

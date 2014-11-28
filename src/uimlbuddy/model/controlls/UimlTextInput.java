@@ -7,8 +7,8 @@ import uimlbuddy.model.Part;
 /**
  * Model class for a UIML Text Input
  * 
- * @author Lyuben
- */
+ * @author Lyuben Dimitrov
+ */ 
 public class UimlTextInput extends Part {
     
     private final StringProperty id;    

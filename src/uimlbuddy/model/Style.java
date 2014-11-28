@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Model for style tag
- * @author Lyuben
+ * @author Lyuben Dimitrov
  */
 public class Style {
 

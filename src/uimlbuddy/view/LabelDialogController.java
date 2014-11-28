@@ -7,6 +7,12 @@ import org.controlsfx.dialog.Dialogs;
 import uimlbuddy.model.controlls.UimlLabel;
 import uimlbuddy.util.DocumentWriter;
 
+/**
+ * FXML Controller class for Label's View
+ *
+ * @author Lyuben Dimitrov
+ */
+
 public class LabelDialogController {
 
     @FXML // fx:id="idField"

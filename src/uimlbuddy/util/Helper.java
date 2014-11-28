@@ -9,7 +9,7 @@ import uimlbuddy.model.Property;
 
 /**
  *
- * @author Luben
+ * @author Luben Dimitrov
  */
 public class Helper {
 
