@@ -56,7 +56,7 @@ public class UimlBuddy extends Application {
     private ObservableList<UimlDropdown> uimlDropdowns = FXCollections.observableArrayList();
     private ObservableList<UimlImage> uimlImages = FXCollections.observableArrayList();
     public static EditorOverviewController editorOverviewController;
-    private static DeveloperViewController developerController;
+    public static DeveloperViewController developerController;
     public static XFormsTransformViewController xFormsTransformViewController;
     private RootLayoutController rootController;
     private VerticalLayoutController verticalLayoutController;

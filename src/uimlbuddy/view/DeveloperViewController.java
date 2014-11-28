@@ -3,6 +3,7 @@ package uimlbuddy.view;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,9 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.controlsfx.control.action.Action;
 import org.controlsfx.dialog.Dialog;
@@ -35,14 +38,24 @@ public class DeveloperViewController implements Initializable {
     // Reference to the main application.
     private UimlBuddy uimlBuddy;
     
-     @FXML // fx:id="developerEditorTextArea"
+    @FXML // fx:id="developerEditorTextArea"
     private TextArea developerEditorTextArea;
 
     @FXML // fx:id="filesTree"
     private TreeView<File> filesTree;
+    
+    @FXML
+    private TabPane tabPane;
 
     @FXML // fx:id="mainTab"
     private Tab mainTab;
+    
+    private FileChooser fileChooser;
+    private FileChooser xmlExporter;
+    private File xsltFile;
+    private FileChooser.ExtensionFilter extFilterXSL;
+    private FileChooser.ExtensionFilter extFilterCSS;
+    private FileChooser.ExtensionFilter extFilterAll;
 
     /**
      * Initializes the controller class.
@@ -105,10 +118,33 @@ public class DeveloperViewController implements Initializable {
     private void handleNewDev() {
         update(null, uimlBuddy);
     }
-
+    
     @FXML
     void handleSaveDev(ActionEvent event) {
+        try {
+            xmlExporter = new FileChooser();
+            xmlExporter.setInitialDirectory(new File("."));
+            extFilterXSL = new FileChooser.ExtensionFilter("XSLT Files (*.xsl)", "*.xsl");
+            extFilterCSS = new FileChooser.ExtensionFilter("CSS Files (*.css)", "*.css");
+            extFilterAll = new FileChooser.ExtensionFilter("All Files", "*.*");
 
+            xmlExporter.getExtensionFilters().addAll(extFilterXSL, extFilterCSS, extFilterAll);
+
+            xsltFile = xmlExporter.showSaveDialog(tabPane.getScene().getWindow());
+
+            if (xsltFile != null) {
+                String xml = uimlbuddy.UimlBuddy.developerController.developerEditorTextArea.getText();
+                if (!xsltFile.exists()) {
+                    xsltFile.createNewFile();
+                }
+                FileWriter fw = new FileWriter(xsltFile);
+                fw.write(xml);
+                fw.close();
+                System.out.println("File Saved Successfully");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML

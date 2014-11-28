@@ -44,7 +44,7 @@
                   <SplitPane dividerPositions="0.2535211267605634" VBox.vgrow="ALWAYS">
                      <items>
                         <TreeView fx:id="filesTree" prefHeight="200.0" prefWidth="200.0" />
-                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                            <tabs>
                               <Tab fx:id="mainTab1" text="Main XSLT">
                                  <content>
