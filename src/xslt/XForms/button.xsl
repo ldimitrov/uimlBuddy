@@ -21,7 +21,7 @@
     <xsl:key name="buttonLabels_single" match="property[@label]" use="@id"/>
     <xsl:key name="buttonHint_single" match="property[@hint]" use="@id"/>
  
-    <!-- Buttons which have an @id corresponding to a style/property @part-name -->    
+    <!-- Buttons which have an @id corresponding to one in style and content -->    
     <xsl:template match="part[@class='Button']">
         <xsl:element name="xf:trigger">
             <xsl:choose>
